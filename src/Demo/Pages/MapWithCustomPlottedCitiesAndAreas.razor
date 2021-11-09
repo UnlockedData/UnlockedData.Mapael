@@ -1,0 +1,217 @@
+@page "/mapwithcustomplottedcitiesandareas"
+@using UnlockedData.Mapael.Models
+
+<Mapael MapOptions="_mapOptions"></Mapael>
+
+@code {
+
+    MapOptions _mapOptions = new();
+    
+
+    protected override void OnInitialized()
+    {
+        var plotDefaults = new RaphaelObjectAttrs()
+        {
+            Fill = "#004a9b",
+            Opacity = 0.6
+        };
+        _mapOptions = new MapOptions() {
+        Map = new Map()
+        {
+            Name = "france_departments",
+            DefaultPlot = new PlotObject()
+            {   
+                Attrs = plotDefaults,
+                AttrsHover = new RaphaelObjectAttrs()
+                {
+                    Opacity = 1
+                },
+                Text = new MapObjectText()
+                {
+                    Attrs = new RaphaelObjectAttrs()
+                    {
+                        Fill = "#505444"
+                    },
+                    AttrsHover = new RaphaelObjectAttrs()
+                    {
+                        Fill = "#000"
+                    }
+                }
+            },     
+            DefaultArea = new MapObject()
+            {
+                Attrs = new RaphaelObjectAttrs()
+                {
+                    Fill = "#f4f4e8",
+                    Stroke = "#ced8d0",
+                    Opacity = 0.6
+                    
+                },
+                AttrsHover = new RaphaelObjectAttrs()
+                {
+                    
+                    Fill  = "#a4e100",
+                    Stroke = "#ced8d0",
+                    Opacity = 1
+                },
+                Text = new MapObjectText()
+                {
+                    Position = TextPosition.inner,
+                    Attrs = new RaphaelObjectAttrs()
+                    {
+                        Fill = "#505444"
+                    },
+                    AttrsHover = new RaphaelObjectAttrs()
+                    {
+                        Fill = "#000"
+                    }
+                }
+            },
+            
+          
+        },
+        Plots = new Dictionary<string,MapPlot>()
+        {
+            {"paris",new MapPlot()
+            {
+                Type = PlotShape.image,
+                Url = "https://cdn4.iconfinder.com/data/icons/finite-map/16/marker-128.png",
+                Width = 12,
+                Height = 40,
+                Latitude = 48.86,
+                Longitude = 2.3444,
+                Attrs = new RaphaelObjectAttrs()
+                {
+                    Opacity = 1
+                },
+                AttrsHover = new RaphaelObjectAttrs()
+                {
+                    Transform = "s1.5"
+                }
+            }                
+            },
+            { "Limoge", new MapPlot() 
+                {
+                    Type= PlotShape.svg,
+                    Path= "M 24.267286,27.102843 15.08644,22.838269 6.3686216,27.983579 7.5874348,17.934248 0,11.2331 9.9341158,9.2868473 13.962641,0 l 4.920808,8.8464793 10.077199,0.961561 -6.892889,7.4136777 z",
+                    Width= 30,
+                    Height= 30,
+                    Latitude= 45.8188276,
+                    Longitude= 1.1060351,
+                    Attrs = new RaphaelObjectAttrs()
+                    {
+                        Opacity = 1                        
+                    }
+                }
+            },
+            {"rennes", new MapPlot()
+            {
+                
+                Type = PlotShape.square,
+                Size = 20,
+                Latitude = 48.113166666667,
+                Longitude = -1.68083333333,
+                Tooltip = new MapObjectTooltip()
+                {
+                    Content = "<span style=\"font-weight:bold;\">City :</span> Rennes <br /> Bretagne",
+                    },
+                Text = new MapObjectText() {
+                    Content = "Rennes"
+                
+                }
+            }},
+            {"lyon",new MapPlot()
+            {
+                Type = PlotShape.circle,
+                Size = 50,
+                Latitude = 45.7588888889,
+                Longitude = 4.84138888889,
+                Value = 700000,
+                Tooltip = new MapObjectTooltip()
+                {
+                    Content = "<span style=\"font-weight:bold;\">City :</span> Lyon"                    
+                },
+                Text = new MapObjectText() {Content = "Lyon"}
+            }},
+            {"myplot",new MapPlot()
+            {
+                X = 300,
+                Y = 200,
+                Text = new MapObjectText()
+                {
+                    Content = "My plot",
+                    Position = TextPosition.bottom,
+                    Attrs = new RaphaelObjectAttrs()
+                    {
+                        FontSize = 10,
+                        Fill = "#004a9b",
+                        Opacity = 0.6
+                    },
+                    AttrsHover = new RaphaelObjectAttrs()
+                    {
+                        Fill = "#004a9b",
+                        Opacity = 1
+                    }
+                }
+            }},
+            {"Bordeaux", new MapPlot()
+            {
+                Type = PlotShape.circle,
+                Size=30,
+                Latitude = 44.834763,
+                Longitude = -0.580991,
+                Attrs = new RaphaelObjectAttrs()
+                { 
+                    Opacity = 1
+                },
+                Text = new MapObjectText()
+                {
+                    Content = "33",
+                    Position = TextPosition.inner,
+                    Attrs = new RaphaelObjectAttrs()
+                    {
+                        FontSize = 16,
+                        FontWeight = "bold",
+                        Fill="#fff"
+                    },
+                    AttrsHover = new RaphaelObjectAttrs()
+                    {
+                        FontSize = 16,
+                        FontWeight = "bold",
+                        Fill="#fff"
+                    }
+                }
+            }}
+        },
+            Areas = new Dictionary<string, MapArea>()
+            {
+                {"department-56", new MapArea()
+                {
+                    Text = new MapObjectText()
+                    {
+                        Content = "Morbihan",
+                        Position = TextPosition.inner,
+                        Attrs = new RaphaelObjectAttrs(){FontSize = 10}
+                    
+                    },
+                    Tooltip = new MapObjectTooltip()
+                    {
+                        Content = "Morbihan (56)"
+                    }
+                }},
+                {"department-21",new MapArea()
+                {
+                    Attrs = new RaphaelObjectAttrs()
+                    {
+                        Fill = "#488402"
+                    },
+                    AttrsHover = new RaphaelObjectAttrs()
+                    {
+                        Fill = "#a4e100"
+                    }
+                }}
+            }
+    };
+    }
+
+}
