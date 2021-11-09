@@ -20,6 +20,9 @@ public class MapObject
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Href { get; set; }
     
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public double? Value { get; set; }
+    
     // [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     // public Dictionary<string, IJSObjectReference>? EventHandlers { get; set; }
 }

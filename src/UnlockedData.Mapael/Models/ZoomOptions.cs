@@ -5,6 +5,7 @@ namespace UnlockedData.Mapael.Models;
 public class ZoomOptions
 {
     public bool Enabled { get; set; } = false;
+    public bool ScalePlots { get; set; } = true;
     public bool MouseWheel { get; set; } = true;
     public bool Touch { get; set; } = true;
     public int MinLevel { get; set; } = 0; 

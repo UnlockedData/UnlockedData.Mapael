@@ -17,5 +17,7 @@ public class PlotObject : MapObject
     public string? Url { get; set; } 
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Path { get; set; }
+    
+   
 
 }

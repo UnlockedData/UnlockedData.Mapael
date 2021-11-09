@@ -10,7 +10,7 @@ public class MapOptions
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Dictionary<string, MapPlot>? Plots { get; set; } 
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Dictionary<string, MapArea>? Areas { get; set; } 
+    public Dictionary<string, AreaObject>? Areas { get; set; } 
 
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Legend? Legend { get; set; }

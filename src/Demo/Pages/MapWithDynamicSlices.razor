@@ -1,0 +1,989 @@
+﻿@page "/mapwithdynamicslices"
+@using System.Security.Cryptography
+@using UnlockedData.Mapael.Models
+@using UnlockedData.Mapael.Utils
+<div>
+
+    <Mapael MapOptions="_mapOptions"/>
+</div>
+
+@code {
+
+    MapOptions _mapOptions = new();
+
+    Dictionary<string, MapPlot> _plots = new Dictionary<string, MapPlot>()
+    {
+        {
+            "town-75056", new MapPlot()
+            {
+                Value = 2268265,
+                Latitude = 48.86,
+                Longitude = 2.3444444444444,
+                Href = "#",
+                Tooltip = new MapObjectTooltip()
+                {
+                    Content = "<span style=\"font-weight=bold;\">Paris (75056)</span><br />Population = 2268265"
+                }
+            }
+        },
+        {
+            "town-13055", new MapPlot()
+            {
+                Value = 859368,
+                Latitude = 43.296666666667,
+                Longitude = 5.3763888888889,
+                Href = "#",
+                Tooltip = new MapObjectTooltip()
+                {
+                    Content = "<span style=\"font-weight=bold;\">Marseille (13055)</span><br />Population = 859368"
+                }
+            }
+        },
+        {
+            "town-69123", new MapPlot()
+            {
+                Value = 492578,
+                Latitude = 45.758888888889,
+                Longitude = 4.8413888888889,
+                Href = "#",
+                Tooltip = new MapObjectTooltip()
+                {
+                    Content = "<span style=\"font-weight=bold;\">Lyon (69123)</span><br />Population = 492578"
+                }
+            }
+        },
+        {
+            "town-31555", new MapPlot()
+            {
+                Value = 449328,
+                Latitude = 43.604444444444,
+                Longitude = 1.4419444444444,
+                Href = "#",
+                Tooltip = new MapObjectTooltip()
+                {
+                    Content = "<span style=\"font-weight=bold;\">Toulouse (31555)</span><br />Population = 449328"
+                }
+            }
+        },
+        {
+            "town-06088", new MapPlot()
+            {
+                Value = 347105,
+                Latitude = 43.701944444444,
+                Longitude = 7.2683333333333,
+                Href = "#",
+                Tooltip = new MapObjectTooltip()
+                {
+                    Content = "<span style=\"font-weight=bold;\">Nice (06088)</span><br />Population = 347105"
+                }
+            }
+        },
+        {
+            "town-44109", new MapPlot()
+            {
+                Value = 293234,
+                Latitude = 47.217222222222,
+                Longitude = -1.5538888888889,
+                Href = "#",
+                Tooltip = new MapObjectTooltip()
+                {
+                    Content = "<span style=\"font-weight=bold;\">Nantes (44109)</span><br />Population = 293234"
+                }
+            }
+        },
+        {
+            "town-67482", new MapPlot()
+            {
+                Value = 276401,
+                Latitude = 48.583611111111,
+                Longitude = 7.7480555555556,
+                Href = "#",
+                Tooltip = new MapObjectTooltip()
+                {
+                    Content = "<span style=\"font-weight=bold;\">Strasbourg (67482)</span><br />Population = 276401"
+                }
+            }
+        },
+        {
+            "town-34172", new MapPlot()
+            {
+                Value = 260572,
+                Latitude = 43.611111111111,
+                Longitude = 3.8766666666667,
+                Href = "#",
+                Tooltip = new MapObjectTooltip()
+                {
+                    Content = "<span style=\"font-weight=bold;\">Montpellier (34172)</span><br />Population = 260572"
+                }
+            }
+        },
+        {
+            "town-33063", new MapPlot()
+            {
+                Value = 242945,
+                Latitude = 44.837777777778,
+                Longitude = -0.57944444444444,
+                Href = "#",
+                Tooltip = new MapObjectTooltip()
+                {
+                    Content = "<span style=\"font-weight=bold;\">Bordeaux (33063)</span><br />Population = 242945"
+                }
+            }
+        },
+        {
+            "town-59350", new MapPlot()
+            {
+                Value = 234058,
+                Latitude = 50.631944444444,
+                Longitude = 3.0575,
+                Href = "#",
+                Tooltip = new MapObjectTooltip()
+                {
+                    Content = "<span style=\"font-weight=bold;\">Lille (59350)</span><br />Population = 234058"
+                }
+            }
+        },
+        {
+            "town-35238", new MapPlot()
+            {
+                Value = 212939,
+                Latitude = 48.114166666667,
+                Longitude = -1.6808333333333,
+                Href = "#",
+                Tooltip = new MapObjectTooltip()
+                {
+                    Content = "<span style=\"font-weight=bold;\">Rennes (35238)</span><br />Population = 212939"
+                }
+            }
+        },
+        {
+            "town-51454", new MapPlot()
+            {
+                Value = 184011,
+                Latitude = 49.265277777778,
+                Longitude = 4.0286111111111,
+                Href = "#",
+                Tooltip = new MapObjectTooltip()
+                {
+                    Content = "<span style=\"font-weight=bold;\">Reims (51454)</span><br />Population = 184011"
+                }
+            }
+        },
+        {
+            "town-76351", new MapPlot()
+            {
+                Value = 178070,
+                Latitude = 49.498888888889,
+                Longitude = 0.12111111111111,
+                Href = "#",
+                Tooltip = new MapObjectTooltip()
+                {
+                    Content = "<span style=\"font-weight=bold;\">Le Havre (76351)</span><br />Population = 178070"
+                }
+            }
+        },
+        {
+            "town-42218", new MapPlot()
+            {
+                Value = 174566,
+                Latitude = 45.433888888889,
+                Longitude = 4.3897222222222,
+                Href = "#",
+                Tooltip = new MapObjectTooltip()
+                {
+                    Content = "<span style=\"font-weight=bold;\">Saint-Étienne (42218)</span><br />Population = 174566"
+                }
+            }
+        },
+        {
+            "town-83137", new MapPlot()
+            {
+                Value = 166851,
+                Latitude = 43.125,
+                Longitude = 5.9305555555556,
+                Href = "#",
+                Tooltip = new MapObjectTooltip()
+                {
+                    Content = "<span style=\"font-weight=bold;\">Toulon (83137)</span><br />Population = 166851"
+                }
+            }
+        },
+        {
+            "town-38185", new MapPlot()
+            {
+                Value = 158249,
+                Latitude = 45.186944444444,
+                Longitude = 5.7263888888889,
+                Href = "#",
+                Tooltip = new MapObjectTooltip()
+                {
+                    Content = "<span style=\"font-weight=bold;\">Grenoble (38185)</span><br />Population = 158249"
+                }
+            }
+        },
+        {
+            "town-21231", new MapPlot()
+            {
+                Value = 155233,
+                Latitude = 47.323055555556,
+                Longitude = 5.0419444444444,
+                Href = "#",
+                Tooltip = new MapObjectTooltip()
+                {
+                    Content = "<span style=\"font-weight=bold;\">Dijon (21231)</span><br />Population = 155233"
+                }
+            }
+        },
+        {
+            "town-49007", new MapPlot()
+            {
+                Value = 151957,
+                Latitude = 47.472777777778,
+                Longitude = -0.55555555555556,
+                Href = "#",
+                Tooltip = new MapObjectTooltip()
+                {
+                    Content = "<span style=\"font-weight=bold;\">Angers (49007)</span><br />Population = 151957"
+                }
+            }
+        },
+        {
+            "town-72181", new MapPlot()
+            {
+                Value = 147108,
+                Latitude = 48.004166666667,
+                Longitude = 0.19694444444444,
+                Href = "#",
+                Tooltip = new MapObjectTooltip()
+                {
+                    Content = "<span style=\"font-weight=bold;\">Le Mans (72181)</span><br />Population = 147108"
+                }
+            }
+        },
+        {
+            "town-69266", new MapPlot()
+            {
+                Value = 146729,
+                Latitude = 45.766111111111,
+                Longitude = 4.8794444444444,
+                Href = "#",
+                Tooltip = new MapObjectTooltip()
+                {
+                    Content = "<span style=\"font-weight=bold;\">Villeurbanne (69266)</span><br />Population = 146729"
+                }
+            }
+        },
+        {
+            "town-97411", new MapPlot()
+            {
+                Value = 146489,
+                Latitude = -20.878888888889,
+                Longitude = 55.448055555556,
+                Href = "#",
+                Tooltip = new MapObjectTooltip()
+                {
+                    Content = "<span style=\"font-weight=bold;\">Saint-Denis (97411)</span><br />Population = 146489"
+                }
+            }
+        },
+        {
+            "town-29019", new MapPlot()
+            {
+                Value = 145561,
+                Latitude = 48.39,
+                Longitude = -4.4869444444444,
+                Href = "#",
+                Tooltip = new MapObjectTooltip()
+                {
+                    Content = "<span style=\"font-weight=bold;\">Brest (29019)</span><br />Population = 145561"
+                }
+            }
+        },
+        {
+            "town-30189", new MapPlot()
+            {
+                Value = 145501,
+                Latitude = 43.836944444444,
+                Longitude = 4.36,
+                Href = "#",
+                Tooltip = new MapObjectTooltip()
+                {
+                    Content = "<span style=\"font-weight=bold;\">Nîmes (30189)</span><br />Population = 145501"
+                }
+            }
+        },
+        {
+            "town-13001", new MapPlot()
+            {
+                Value = 144884,
+                Latitude = 43.527777777778,
+                Longitude = 5.4455555555556,
+                Href = "#",
+                Tooltip = new MapObjectTooltip()
+                {
+                    Content = "<span style=\"font-weight=bold;\">Aix-en-Provence (13001)</span><br />Population = 144884"
+                }
+            }
+        },
+        {
+            "town-63113", new MapPlot()
+            {
+                Value = 143669,
+                Latitude = 45.779722222222,
+                Longitude = 3.0869444444444,
+                Href = "#",
+                Tooltip = new MapObjectTooltip()
+                {
+                    Content = "<span style=\"font-weight=bold;\">Clermont-Ferrand (63113)</span><br />Population = 143669"
+                }
+            }
+        },
+        {
+            "town-87085", new MapPlot()
+            {
+                Value = 141540,
+                Latitude = 45.834444444444,
+                Longitude = 1.2616666666667,
+                Href = "#",
+                Tooltip = new MapObjectTooltip()
+                {
+                    Content = "<span style=\"font-weight=bold;\">Limoges (87085)</span><br />Population = 141540"
+                }
+            }
+        },
+        {
+            "town-37261", new MapPlot()
+            {
+                Value = 138268,
+                Latitude = 47.392777777778,
+                Longitude = 0.68833333333333,
+                Href = "#",
+                Tooltip = new MapObjectTooltip()
+                {
+                    Content = "<span style=\"font-weight=bold;\">Tours (37261)</span><br />Population = 138268"
+                }
+            }
+        },
+        {
+            "town-80021", new MapPlot()
+            {
+                Value = 136512,
+                Latitude = 49.891944444444,
+                Longitude = 2.2977777777778,
+                Href = "#",
+                Tooltip = new MapObjectTooltip()
+                {
+                    Content = "<span style=\"font-weight=bold;\">Amiens (80021)</span><br />Population = 136512"
+                }
+            }
+        },
+        {
+            "town-57463", new MapPlot()
+            {
+                Value = 122928,
+                Latitude = 49.119722222222,
+                Longitude = 6.1769444444444,
+                Href = "#",
+                Tooltip = new MapObjectTooltip()
+                {
+                    Content = "<span style=\"font-weight=bold;\">Metz (57463)</span><br />Population = 122928"
+                }
+            }
+        },
+        {
+            "town-25056", new MapPlot()
+            {
+                Value = 121038,
+                Latitude = 47.242222222222,
+                Longitude = 6.0213888888889,
+                Href = "#",
+                Tooltip = new MapObjectTooltip()
+                {
+                    Content = "<span style=\"font-weight=bold;\">Besançon (25056)</span><br />Population = 121038"
+                }
+            }
+        },
+        {
+            "town-66136", new MapPlot()
+            {
+                Value = 119536,
+                Latitude = 42.6975,
+                Longitude = 2.8947222222222,
+                Href = "#",
+                Tooltip = new MapObjectTooltip()
+                {
+                    Content = "<span style=\"font-weight=bold;\">Perpignan (66136)</span><br />Population = 119536"
+                }
+            }
+        },
+        {
+            "town-45234", new MapPlot()
+            {
+                Value = 117833,
+                Latitude = 47.902222222222,
+                Longitude = 1.9041666666667,
+                Href = "#",
+                Tooltip = new MapObjectTooltip()
+                {
+                    Content = "<span style=\"font-weight=bold;\">Orléans (45234)</span><br />Population = 117833"
+                }
+            }
+        },
+        {
+            "town-92012", new MapPlot()
+            {
+                Value = 115264,
+                Latitude = 48.835277777778,
+                Longitude = 2.2413888888889,
+                Href = "#",
+                Tooltip = new MapObjectTooltip()
+                {
+                    Content = "<span style=\"font-weight=bold;\">Boulogne-Billancourt (92012)</span><br />Population = 115264"
+                }
+            }
+        },
+        {
+            "town-76540", new MapPlot()
+            {
+                Value = 113461,
+                Latitude = 49.443055555556,
+                Longitude = 1.1025,
+                Href = "#",
+                Tooltip = new MapObjectTooltip()
+                {
+                    Content = "<span style=\"font-weight=bold;\">Rouen (76540)</span><br />Population = 113461"
+                }
+            }
+        },
+        {
+            "town-14118", new MapPlot()
+            {
+                Value = 111949,
+                Latitude = 49.182222222222,
+                Longitude = -0.37055555555556,
+                Href = "#",
+                Tooltip = new MapObjectTooltip()
+                {
+                    Content = "<span style=\"font-weight=bold;\">Caen (14118)</span><br />Population = 111949"
+                }
+            }
+        },
+        {
+            "town-68224", new MapPlot()
+            {
+                Value = 111273,
+                Latitude = 47.748611111111,
+                Longitude = 7.3391666666667,
+                Href = "#",
+                Tooltip = new MapObjectTooltip()
+                {
+                    Content = "<span style=\"font-weight=bold;\">Mulhouse (68224)</span><br />Population = 111273"
+                }
+            }
+        },
+        {
+            "town-93066", new MapPlot()
+            {
+                Value = 107959,
+                Latitude = 48.935555555556,
+                Longitude = 2.3538888888889,
+                Href = "#",
+                Tooltip = new MapObjectTooltip()
+                {
+                    Content = "<span style=\"font-weight=bold;\">Saint-Denis (93066)</span><br />Population = 107959"
+                }
+            }
+        },
+        {
+            "town-54395", new MapPlot()
+            {
+                Value = 107710,
+                Latitude = 48.692777777778,
+                Longitude = 6.1836111111111,
+                Href = "#",
+                Tooltip = new MapObjectTooltip()
+                {
+                    Content = "<span style=\"font-weight=bold;\">Nancy (54395)</span><br />Population = 107710"
+                }
+            }
+        },
+        {
+            "town-95018", new MapPlot()
+            {
+                Value = 104843,
+                Latitude = 48.947777777778,
+                Longitude = 2.2475,
+                Href = "#",
+                Tooltip = new MapObjectTooltip()
+                {
+                    Content = "<span style=\"font-weight=bold;\">Argenteuil (95018)</span><br />Population = 104843"
+                }
+            }
+        },
+        {
+            "town-97415", new MapPlot()
+            {
+                Value = 104818,
+                Latitude = -21.009722222222,
+                Longitude = 55.269722222222,
+                Href = "#",
+                Tooltip = new MapObjectTooltip()
+                {
+                    Content = "<span style=\"font-weight=bold;\">Saint-Paul (97415)</span><br />Population = 104818"
+                }
+            }
+        },
+        {
+            "town-93048", new MapPlot()
+            {
+                Value = 103675,
+                Latitude = 48.860277777778,
+                Longitude = 2.4430555555556,
+                Href = "#",
+                Tooltip = new MapObjectTooltip()
+                {
+                    Content = "<span style=\"font-weight=bold;\">Montreuil (93048)</span><br />Population = 103675"
+                }
+            }
+        },
+        {
+            "town-59512", new MapPlot()
+            {
+                Value = 95506,
+                Latitude = 50.689166666667,
+                Longitude = 3.1808333333333,
+                Href = "#",
+                Tooltip = new MapObjectTooltip()
+                {
+                    Content = "<span style=\"font-weight=bold;\">Roubaix (59512)</span><br />Population = 95506"
+                }
+            }
+        },
+        {
+            "town-59183", new MapPlot()
+            {
+                Value = 93489,
+                Latitude = 51.037777777778,
+                Longitude = 2.3763888888889,
+                Href = "#",
+                Tooltip = new MapObjectTooltip()
+                {
+                    Content = "<span style=\"font-weight=bold;\">Dunkerque (59183)</span><br />Population = 93489"
+                }
+            }
+        },
+        {
+            "town-59599", new MapPlot()
+            {
+                Value = 92620,
+                Latitude = 50.7225,
+                Longitude = 3.1602777777778,
+                Href = "#",
+                Tooltip = new MapObjectTooltip()
+                {
+                    Content = "<span style=\"font-weight=bold;\">Tourcoing (59599)</span><br />Population = 92620"
+                }
+            }
+        },
+        {
+            "town-84007", new MapPlot()
+            {
+                Value = 91657,
+                Latitude = 43.948611111111,
+                Longitude = 4.8083333333333,
+                Href = "#",
+                Tooltip = new MapObjectTooltip()
+                {
+                    Content = "<span style=\"font-weight=bold;\">Avignon (84007)</span><br />Population = 91657"
+                }
+            }
+        },
+        {
+            "town-92050", new MapPlot()
+            {
+                Value = 91114,
+                Latitude = 48.890555555556,
+                Longitude = 2.2036111111111,
+                Href = "#",
+                Tooltip = new MapObjectTooltip()
+                {
+                    Content = "<span style=\"font-weight=bold;\">Nanterre (92050)</span><br />Population = 91114"
+                }
+            }
+        },
+        {
+            "town-94028", new MapPlot()
+            {
+                Value = 90779,
+                Latitude = 48.790555555556,
+                Longitude = 2.4619444444444,
+                Href = "#",
+                Tooltip = new MapObjectTooltip()
+                {
+                    Content = "<span style=\"font-weight=bold;\">Créteil (94028)</span><br />Population = 90779"
+                }
+            }
+        },
+        {
+            "town-86194", new MapPlot()
+            {
+                Value = 90386,
+                Latitude = 46.581111111111,
+                Longitude = 0.33527777777778,
+                Href = "#",
+                Tooltip = new MapObjectTooltip()
+                {
+                    Content = "<span style=\"font-weight=bold;\">Poitiers (86194)</span><br />Population = 90386"
+                }
+            }
+        },
+        {
+            "town-97209", new MapPlot()
+            {
+                Value = 88623,
+                Latitude = 14.607222222222,
+                Longitude = -61.069444444444,
+                Href = "#",
+                Tooltip = new MapObjectTooltip()
+                {
+                    Content = "<span style=\"font-weight=bold;\">Fort-de-France (97209)</span><br />Population = 88623"
+                }
+            }
+        },
+        {
+            "town-78646", new MapPlot()
+            {
+                Value = 88253,
+                Latitude = 48.804722222222,
+                Longitude = 2.1341666666667,
+                Href = "#",
+                Tooltip = new MapObjectTooltip()
+                {
+                    Content = "<span style=\"font-weight=bold;\">Versailles (78646)</span><br />Population = 88253"
+                }
+            }
+        },
+        {
+            "town-92026", new MapPlot()
+            {
+                Value = 88169,
+                Latitude = 48.897222222222,
+                Longitude = 2.2522222222222,
+                Href = "#",
+                Tooltip = new MapObjectTooltip()
+                {
+                    Content = "<span style=\"font-weight=bold;\">Courbevoie (92026)</span><br />Population = 88169"
+                }
+            }
+        },
+        {
+            "town-94081", new MapPlot()
+            {
+                Value = 86210,
+                Latitude = 48.7875,
+                Longitude = 2.3927777777778,
+                Href = "#",
+                Tooltip = new MapObjectTooltip()
+                {
+                    Content = "<span style=\"font-weight=bold;\">Vitry-sur-Seine (94081)</span><br />Population = 86210"
+                }
+            }
+        },
+        {
+            "town-92025", new MapPlot()
+            {
+                Value = 86094,
+                Latitude = 48.923611111111,
+                Longitude = 2.2522222222222,
+                Href = "#",
+                Tooltip = new MapObjectTooltip()
+                {
+                    Content = "<span style=\"font-weight=bold;\">Colombes (92025)</span><br />Population = 86094"
+                }
+            }
+        },
+        {
+            "town-92004", new MapPlot()
+            {
+                Value = 82998,
+                Latitude = 48.911111111111,
+                Longitude = 2.2855555555556,
+                Href = "#",
+                Tooltip = new MapObjectTooltip()
+                {
+                    Content = "<span style=\"font-weight=bold;\">Asnières-sur-Seine (92004)</span><br />Population = 82998"
+                }
+            }
+        },
+        {
+            "town-93005", new MapPlot()
+            {
+                Value = 82778,
+                Latitude = 48.936388888889,
+                Longitude = 2.4930555555556,
+                Href = "#",
+                Tooltip = new MapObjectTooltip()
+                {
+                    Content = "<span style=\"font-weight=bold;\">Aulnay-sous-Bois (93005)</span><br />Population = 82778"
+                }
+            }
+        },
+        {
+            "town-64445", new MapPlot()
+            {
+                Value = 82776,
+                Latitude = 43.300833333333,
+                Longitude = -0.37,
+                Href = "#",
+                Tooltip = new MapObjectTooltip()
+                {
+                    Content = "<span style=\"font-weight=bold;\">Pau (64445)</span><br />Population = 82776"
+                }
+            }
+        },
+        {
+            "town-92063", new MapPlot()
+            {
+                Value = 80905,
+                Latitude = 48.877777777778,
+                Longitude = 2.1883333333333,
+                Href = "#",
+                Tooltip = new MapObjectTooltip()
+                {
+                    Content = "<span style=\"font-weight=bold;\">Rueil-Malmaison (92063)</span><br />Population = 80905"
+                }
+            }
+        },
+        {
+            "town-97416", new MapPlot()
+            {
+                Value = 80027,
+                Latitude = -21.341944444444,
+                Longitude = 55.477777777778,
+                Href = "#",
+                Tooltip = new MapObjectTooltip()
+                {
+                    Content = "<span style=\"font-weight=bold;\">Saint-Pierre (97416)</span><br />Population = 80027"
+                }
+            }
+        },
+        {
+            "town-17300", new MapPlot()
+            {
+                Value = 77875,
+                Latitude = 46.159444444444,
+                Longitude = -1.1513888888889,
+                Href = "#",
+                Tooltip = new MapObjectTooltip()
+                {
+                    Content = "<span style=\"font-weight=bold;\">La Rochelle (17300)</span><br />Population = 77875"
+                }
+            }
+        },
+        {
+            "town-93001", new MapPlot()
+            {
+                Value = 76728,
+                Latitude = 48.911111111111,
+                Longitude = 2.3825,
+                Href = "#",
+                Tooltip = new MapObjectTooltip()
+                {
+                    Content = "<span style=\"font-weight=bold;\">Aubervilliers (93001)</span><br />Population = 76728"
+                }
+            }
+        },
+        {
+            "town-94017", new MapPlot()
+            {
+                Value = 76235,
+                Latitude = 48.817222222222,
+                Longitude = 2.5155555555556,
+                Href = "#",
+                Tooltip = new MapObjectTooltip()
+                {
+                    Content = "<span style=\"font-weight=bold;\">Champigny-sur-Marne (94017)</span><br />Population = 76235"
+                }
+            }
+        },
+        {
+            "town-94068", new MapPlot()
+            {
+                Value = 75772,
+                Latitude = 48.798611111111,
+                Longitude = 2.4988888888889,
+                Href = "#",
+                Tooltip = new MapObjectTooltip()
+                {
+                    Content = "<span style=\"font-weight=bold;\">Saint-Maur-des-Fossés (94068)</span><br />Population = 75772"
+                }
+            }
+        },
+        {
+            "town-06004", new MapPlot()
+            {
+                Value = 75174,
+                Latitude = 43.58,
+                Longitude = 7.1230555555556,
+                Href = "#",
+                Tooltip = new MapObjectTooltip()
+                {
+                    Content = "<span style=\"font-weight=bold;\">Antibes (06004)</span><br />Population = 75174"
+                }
+            }
+        },
+        {
+            "town-62193", new MapPlot()
+            {
+                Value = 74573,
+                Latitude = 50.9475,
+                Longitude = 1.8555555555556,
+                Href = "#",
+                Tooltip = new MapObjectTooltip()
+                {
+                    Content = "<span style=\"font-weight=bold;\">Calais (62193)</span><br />Population = 74573"
+                }
+            }
+        },
+        {
+            "town-06029", new MapPlot()
+            {
+                Value = 74273,
+                Latitude = 43.5525,
+                Longitude = 7.0213888888889,
+                Href = "#",
+                Tooltip = new MapObjectTooltip()
+                {
+                    Content = "<span style=\"font-weight=bold;\">Cannes (06029)</span><br />Population = 74273"
+                }
+            }
+        },
+        {
+            "town-97422", new MapPlot()
+            {
+                Value = 74174,
+                Latitude = -21.278055555556,
+                Longitude = 55.515277777778,
+                Href = "#",
+                Tooltip = new MapObjectTooltip()
+                {
+                    Content = "<span style=\"font-weight=bold;\">Le Tampon (97422)</span><br />Population = 74174"
+                }
+            }
+        },
+        {
+            "town-34032", new MapPlot()
+            {
+                Value = 72466,
+                Latitude = 43.343333333333,
+                Longitude = 3.2161111111111,
+                Href = "#",
+                Tooltip = new MapObjectTooltip()
+                {
+                    Content = "<span style=\"font-weight=bold;\">Béziers (34032)</span><br />Population = 72466"
+                }
+            }
+        },
+        {
+            "town-44184", new MapPlot()
+            {
+                Value = 69724,
+                Latitude = 47.279444444444,
+                Longitude = -2.21,
+                Href = "#",
+                Tooltip = new MapObjectTooltip()
+                {
+                    Content = "<span style=\"font-weight=bold;\">Saint-Nazaire (44184)</span><br />Population = 69724"
+                }
+            }
+        },
+        {
+            "town-68066", new MapPlot()
+            {
+                Value = 69187,
+                Latitude = 48.081111111111,
+                Longitude = 7.355,
+                Href = "#",
+                Tooltip = new MapObjectTooltip()
+                {
+                    Content = "<span style=\"font-weight=bold;\">Colmar (68066)</span><br />Population = 69187"
+                }
+            }
+        },
+        {
+            "town-18033", new MapPlot()
+            {
+                Value = 68590,
+                Latitude = 47.083611111111,
+                Longitude = 2.3955555555556,
+                Href = "#",
+                Tooltip = new MapObjectTooltip()
+                {
+                    Content = "<span style=\"font-weight=bold;\">Bourges (18033)</span><br />Population = 68590"
+                }
+            }
+        },
+
+    };
+
+    protected override void OnInitialized()
+    {
+        _mapOptions = new MapOptions() 
+    {
+        Map = new Map()
+    {
+        Name = "france_departments",
+        DefaultArea = new MapObject()
+        {
+            AttrsHover = new RaphaelObjectAttrs()
+            {
+                StrokeWidth = 0,
+                Fill = "#343434",
+                Stroke = "#5d5d5d",
+                StrokeLineJoin = StrokeLineJoin.round
+            }
+        },
+        DefaultPlot = new PlotObject()
+        {
+            Attrs = new RaphaelObjectAttrs()
+            {
+                Fill = "green",
+                StrokeWidth = 0,
+                Opacity = 0.5
+            },
+            AttrsHover = new RaphaelObjectAttrs()
+            {
+                Opacity = 1,
+                StrokeWidth = 0
+            }
+        }
+    },
+    Plots = _plots,
+    Legend = new Legend()
+    {
+        Plot = new LegendOptions()
+        {
+    // CSsClass = "myLegend",
+            LabelAttrs = new RaphaelObjectAttrs()
+            {
+                Fill = "#4a4a4a"
+            },
+            TitleAttrs = new RaphaelObjectAttrs()
+            {
+                Fill = "#4a4a4a"
+            },
+            MarginBottom = 20,
+            MarginLeft = 30,
+            HideElemsOnClick = new HideElementsConfig()
+            {
+                Opacity = 0
+            },
+            Title = "French Cities Population",
+            Slices = SliceGenerator.GenerateSlices(_plots.Select(x=>x.Value).ToList(), new Tuple<double, double>(20,50))
+        }
+    }
+    } ;
+
+}
+
+}

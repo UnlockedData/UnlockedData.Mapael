@@ -4,8 +4,7 @@ namespace UnlockedData.Mapael.Models;
 
 public class MapPlot : PlotObject
 {
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public double? Value { get; set; }
+   
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public double? Latitude { get; set; }
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
