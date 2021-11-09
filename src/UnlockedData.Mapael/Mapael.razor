@@ -21,13 +21,12 @@
 @code{
 
     [Parameter]
-    public MapOptions MapOptions { get; set; }
+    public MapOptions MapOptions { get; set; } = new MapOptions();
 
     [Parameter]
     public string AlternativeMapText { get; set; } = "Alternative Map Text";
 
     [Parameter] public EventCallback<string> OnAreaClicked { get; set; }
-
 
     [Parameter]
     public string AlternativeLegendText { get; set; } = "Alternative Legend Text";
