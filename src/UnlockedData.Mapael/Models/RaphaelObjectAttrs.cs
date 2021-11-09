@@ -20,7 +20,7 @@ public class RaphaelObjectAttrs
     public string? FontWeight { get; set; } 
     [JsonPropertyName("stroke-width")]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public int? StrokeWidth { get; set; }
+    public double? StrokeWidth { get; set; }
     
     [JsonPropertyName("stroke-linejoin")]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
