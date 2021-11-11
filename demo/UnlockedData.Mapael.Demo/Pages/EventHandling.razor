@@ -1,0 +1,86 @@
+@page "/eventhandling"
+
+<div>
+    <h1>Last clicked: @_objectType - @_objectName</h1>
+</div>
+
+<Mapael MapOptions="_mapOptions" OnAreaClicked="AreaClickHander" OnPlotClicked="PlotClickHander"></Mapael>
+
+@code {
+
+    string _objectType;
+    string _objectName;
+
+    void AreaClickHander(string key)
+    {
+        _objectType = "Area";
+        _objectName = key;
+    }
+
+    void PlotClickHander(string key)
+    {
+        _objectType = "Plot";
+        _objectName = key;
+    }
+
+    readonly MapOptions _mapOptions = new()
+    {
+        Map = new Map
+        {
+            Name = "france_departments",
+            DefaultPlot = new PlotObject
+            {
+                Attrs = new RaphaelObjectAttrs
+                {
+                    Fill = "#004a9b",
+                    Opacity = 0.6
+                },
+                AttrsHover = new RaphaelObjectAttrs
+                {
+                    Opacity = 1
+                },
+                Text = new MapObjectText
+                {
+                    Attrs = new RaphaelObjectAttrs
+                    {
+                        Fill = "#505444"
+                    },
+                    AttrsHover = new RaphaelObjectAttrs
+                    {
+                        Fill = "#000"
+                    }
+                }
+            },
+            DefaultArea = new MapObject
+            {
+                Attrs = new RaphaelObjectAttrs
+                {
+                    Fill = "#f4f4e8",
+                    Stroke = "#ced8d0",
+                    Opacity = 0.6
+                },
+                AttrsHover = new RaphaelObjectAttrs
+                {
+                    Fill = "#a4e100",
+                    Stroke = "#ced8d0",
+                    Opacity = 1
+                },
+                Text = new MapObjectText
+                {
+                    Position = TextPosition.inner,
+                    Attrs = new RaphaelObjectAttrs
+                    {
+                        Fill = "#505444"
+                    },
+                    AttrsHover = new RaphaelObjectAttrs
+                    {
+                        Fill = "#000"
+                    }
+                }
+            }
+        }
+    };
+
+
+
+}
