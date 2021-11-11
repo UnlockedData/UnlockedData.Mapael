@@ -14,7 +14,7 @@
     </ItemGroup>
 
     <PropertyGroup>
-        <PackageLicenseFile>..\..\LICENSE.md</PackageLicenseFile>
+        <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     </PropertyGroup>
 
     <ItemGroup>
