@@ -46,3 +46,6 @@ A PR for a much needed feature in relation to scaling plots on zoom was applied 
 ### Bug Fixes
 
 None
+
+# Contributions Welcome!
+Just submit a PR
