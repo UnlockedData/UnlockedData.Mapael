@@ -1,6 +1,6 @@
 # UnlockedData.Mapael
 
-A Blazor implementation of the mapping library [Jquery Mapael](https://www.vincentbroute.fr/mapael/) by [Vincent Brouté](https://github.com/neveldo) with a dynamic slice generator for on-the-fly data visualisation
+A Blazor implementation of the mapping library [Jquery Mapael](https://www.vincentbroute.fr/mapael/) by [Vincent Brouté](https://github.com/neveldo) with a dynamic slice generator for on-the-fly data visualisation (albeit rudimentary providing just linear size for now)
 
 The main dependencies outside of Jquery have been bundled with the package for convenience. Everything is managed in the old Blazor way for now, it will move to isolated JS at some point.
 
