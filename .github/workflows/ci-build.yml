@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-      - 'rel/*'
+      - 'v*'
     paths-ignore:
       - README.md
   pull_request:
