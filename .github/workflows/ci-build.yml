@@ -3,7 +3,7 @@ name: ci-build
 on:
   push:
     branches:
-      - master
+      - main
       - 'rel/*'
     paths-ignore:
       - README.md
