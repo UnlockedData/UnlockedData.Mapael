@@ -1,73 +1,83 @@
 @page "/eventhandling"
-@using UnlockedData.Mapael.Models
 
-<Mapael MapOptions="_mapOptions" OnAreaClicked="_clickHander"></Mapael>
+<div>
+    <h1>Last clicked: @_objectType - @_objectName</h1>
+</div>
+
+<Mapael MapOptions="_mapOptions" OnAreaClicked="AreaClickHander" OnPlotClicked="PlotClickHander"></Mapael>
 
 @code {
 
-    void _clickHander(string key)
+    string _objectType;
+    string _objectName;
+
+    void AreaClickHander(string key)
     {
-        Console.WriteLine("do something with the data here " + key);
+        _objectType = "Area";
+        _objectName = key;
     }
-    MapOptions _mapOptions = new()
+
+    void PlotClickHander(string key)
     {
-        Map = new Map()
+        _objectType = "Plot";
+        _objectName = key;
+    }
+
+    readonly MapOptions _mapOptions = new()
+    {
+        Map = new Map
         {
             Name = "france_departments",
-            DefaultPlot = new PlotObject()
+            DefaultPlot = new PlotObject
             {
-                Attrs = new RaphaelObjectAttrs()
+                Attrs = new RaphaelObjectAttrs
                 {
                     Fill = "#004a9b",
                     Opacity = 0.6
                 },
-                AttrsHover = new RaphaelObjectAttrs()
+                AttrsHover = new RaphaelObjectAttrs
                 {
                     Opacity = 1
                 },
-                Text = new MapObjectText()
+                Text = new MapObjectText
                 {
-                    Attrs = new RaphaelObjectAttrs()
+                    Attrs = new RaphaelObjectAttrs
                     {
                         Fill = "#505444"
                     },
-                    AttrsHover = new RaphaelObjectAttrs()
+                    AttrsHover = new RaphaelObjectAttrs
                     {
                         Fill = "#000"
                     }
                 }
             },
-            DefaultArea = new MapObject()
+            DefaultArea = new MapObject
             {
-                Attrs = new RaphaelObjectAttrs()
+                Attrs = new RaphaelObjectAttrs
                 {
                     Fill = "#f4f4e8",
                     Stroke = "#ced8d0",
                     Opacity = 0.6
-
                 },
-                AttrsHover = new RaphaelObjectAttrs()
+                AttrsHover = new RaphaelObjectAttrs
                 {
-
                     Fill = "#a4e100",
                     Stroke = "#ced8d0",
                     Opacity = 1
                 },
-                Text = new MapObjectText()
+                Text = new MapObjectText
                 {
                     Position = TextPosition.inner,
-                    Attrs = new RaphaelObjectAttrs()
+                    Attrs = new RaphaelObjectAttrs
                     {
                         Fill = "#505444"
                     },
-                    AttrsHover = new RaphaelObjectAttrs()
+                    AttrsHover = new RaphaelObjectAttrs
                     {
                         Fill = "#000"
                     }
                 }
-            },
-
-
+            }
         }
     };
 

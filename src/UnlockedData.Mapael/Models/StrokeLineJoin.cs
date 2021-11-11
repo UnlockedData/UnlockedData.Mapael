@@ -1,6 +1,4 @@
-﻿namespace UnlockedData.Mapael.Models;
-
-public enum StrokeLineJoin
+﻿public enum StrokeLineJoin
 {
     bevel,
     round,

@@ -1,6 +1,4 @@
-﻿namespace UnlockedData.Mapael.Models;
-
-public enum TextPosition
+﻿public enum TextPosition
 {
     inner,
     right,

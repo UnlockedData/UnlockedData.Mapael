@@ -1,19 +1,18 @@
 ﻿@using Microsoft.JSInterop
-@using UnlockedData.Mapael.Models
 @inject IJSRuntime JS
 
 <div class="map-container" id="@_elementId">
     <div id="" class="jvmap-smart">
-        
+
         <div id="" class="map">
             <span>@AlternativeMapText</span>
         </div>
 
         <div id="" class="legend">
-              <span>@AlternativeLegendText</span>
+            <span>@AlternativeLegendText</span>
         </div>
-        
-        
+
+
     </div>
 </div>
 
@@ -21,42 +20,45 @@
 @code{
 
     [Parameter]
-    public MapOptions MapOptions { get; set; } = new MapOptions();
+    public MapOptions MapOptions { get; set; } = new();
 
     [Parameter]
     public string AlternativeMapText { get; set; } = "Alternative Map Text";
 
-    [Parameter] public EventCallback<string> OnAreaClicked { get; set; }
+    [Parameter]
+    public EventCallback<string> OnAreaClicked { get; set; }
+
+    [Parameter]
+    public EventCallback<string> OnPlotClicked { get; set; }
 
     [Parameter]
     public string AlternativeLegendText { get; set; } = "Alternative Legend Text";
+
     private string _elementId = "p" + Guid.NewGuid().ToString()[..6];
 
-    IJSObjectReference _clickHandleJsFunction;
-    
-    
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        
-        var dotNetObjectReference = DotNetObjectReference.Create(this);  
+        var dotNetObjectReference = DotNetObjectReference.Create(this);
         if (firstRender)
         {
             if (MapOptions != null)
-            {                 
+            {
                 await JS.InvokeVoidAsync("createMap", _elementId, dotNetObjectReference, MapOptions);
             }
-            
-        }
-        else
-        {            
-            await JS.InvokeVoidAsync("createMap", _elementId, dotNetObjectReference, MapOptions);
         }
     }
 
     [JSInvokable]
-    public void ClickHandler(string key)
+    public void PlotClickHandler(string key)
+    {
+        OnPlotClicked.InvokeAsync(key);
+    }
+
+    [JSInvokable]
+    public void AreaClickHandler(string key)
     {
         OnAreaClicked.InvokeAsync(key);
     }
-   
+
 }
