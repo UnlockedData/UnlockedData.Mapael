@@ -28,7 +28,7 @@ jobs:
     - name: Install dependencies
       run: dotnet restore UnlockedData.Mapael.sln
     - name: ngbv set version
-      uses: aarnott/nbgv@v0.3
+      uses: aarnott/nbgv@v0.4
       with:
         setAllVars: true
     - run: echo "NBGV_SemVer2 $NBGV_SemVer2"
