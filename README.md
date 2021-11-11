@@ -4,7 +4,7 @@ A Blazor implementation of the mapping library [Jquery Mapael](https://www.vince
 
 The main dependencies outside of Jquery have been bundled with the package for convenience. Everything is managed in the old Blazor way for now, it will move to isolated JS at some point.
 
-For client-side and server-side Blazor - add script section to index.html or _Host.cshtml/_Layout.cshtml 
+For client-side and server-side Blazor - add the below script sections (and optional css) to index.html or _Host.cshtml/_Layout.cshtml 
 
 ```xml
    <link href="_content/UnlockedData.Mapael/mapael.css" rel="stylesheet"/>
