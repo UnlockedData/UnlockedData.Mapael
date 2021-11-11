@@ -16,7 +16,7 @@ For client-side and server-side Blazor - add the below script sections (and opti
    <script src="_content/UnlockedData.Mapael/js/unlockeddata.mapael.js"></script>    
 ```
 
-For maps to render, you must provide the svg data. Some are bundled with the library as they were used to make the demo. If you want to use your own map, you certainly can by following the guide [here](https://www.vincentbroute.fr/mapael/create-map.php)
+For maps to render, you must provide the SVG data. Some are bundled with the library as they were used to make the demo. If you want to use your own map, you certainly can by following the guide [here](https://www.vincentbroute.fr/mapael/create-map.php)
 
 ```xml
 
