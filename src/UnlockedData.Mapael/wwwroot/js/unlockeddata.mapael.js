@@ -1,41 +1,24 @@
+function createMap(element, dotnetref, options) {
 
-
-//UnlockedData Interop Code
-
-function createMap(element, dotnetref, options) {    
-    
-    if (typeof(options.map.defaultArea) !== 'undefined') {
+    if (typeof (options.map.defaultArea) !== 'undefined') {
         options.map.defaultArea.eventHandlers = {
-            click: function (e,id,mapElem,textElem,elemOptions) {                
-                dotnetref.invokeMethodAsync('ClickHandler',id);
-                
-                console.log(id);
-                console.log(mapElem);
-                console.log(textElem);
-                console.log(elemOptions);
-            }};
+            click: function (e, id, mapElem, textElem, elemOptions) {
+                dotnetref.invokeMethodAsync('AreaClickHandler', id);
+
+            }
+        };
     }
 
-    if (typeof(options.map.defaultPlot) !== 'undefined') {
+    if (typeof (options.map.defaultPlot) !== 'undefined') {
         options.map.defaultPlot.eventHandlers = {
-            click: function (e,id,mapElem,textElem,elemOptions) {
-                dotnetref.invokeMethodAsync('ClickHandler',id);
+            click: function (e, id, mapElem, textElem, elemOptions) {
+                dotnetref.invokeMethodAsync('PlotClickHandler', id);
 
-              
-            }};
+
+            }
+        };
     }
 
-
-    // options.defaultPlot.eventHandlers = {
-    //     click: function (e,id,mapElem,textElem,elemOptions) {
-    //         console.log(e);
-    //         console.log(id);
-    //         console.log(mapElem);
-    //         console.log(textElem);
-    //         console.log(elemOptions);
-    //     }};
-
-
-    $("#"+element).mapael(options);
+    $("#" + element).mapael(options);
 }
 

@@ -7,7 +7,7 @@
  */
 
 (function (factory) {
-    if ( typeof define === 'function' && define.amd ) {
+    if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
         define(['jquery'], factory);
     } else if (typeof exports === 'object') {
@@ -19,25 +19,25 @@
     }
 }(function ($) {
 
-    var toFix  = ['wheel', 'mousewheel', 'DOMMouseScroll', 'MozMousePixelScroll'],
-        toBind = ( 'onwheel' in document || document.documentMode >= 9 ) ?
+    var toFix = ['wheel', 'mousewheel', 'DOMMouseScroll', 'MozMousePixelScroll'],
+        toBind = ('onwheel' in document || document.documentMode >= 9) ?
             ['wheel'] : ['mousewheel', 'DomMouseScroll', 'MozMousePixelScroll'],
-        slice  = Array.prototype.slice,
+        slice = Array.prototype.slice,
         nullLowestDeltaTimeout, lowestDelta;
 
-    if ( $.event.fixHooks ) {
-        for ( var i = toFix.length; i; ) {
-            $.event.fixHooks[ toFix[--i] ] = $.event.mouseHooks;
+    if ($.event.fixHooks) {
+        for (var i = toFix.length; i;) {
+            $.event.fixHooks[toFix[--i]] = $.event.mouseHooks;
         }
     }
 
     var special = $.event.special.mousewheel = {
         version: '3.1.12',
 
-        setup: function() {
-            if ( this.addEventListener ) {
-                for ( var i = toBind.length; i; ) {
-                    this.addEventListener( toBind[--i], handler, false );
+        setup: function () {
+            if (this.addEventListener) {
+                for (var i = toBind.length; i;) {
+                    this.addEventListener(toBind[--i], handler, false);
                 }
             } else {
                 this.onmousewheel = handler;
@@ -47,10 +47,10 @@
             $.data(this, 'mousewheel-page-height', special.getPageHeight(this));
         },
 
-        teardown: function() {
-            if ( this.removeEventListener ) {
-                for ( var i = toBind.length; i; ) {
-                    this.removeEventListener( toBind[--i], handler, false );
+        teardown: function () {
+            if (this.removeEventListener) {
+                for (var i = toBind.length; i;) {
+                    this.removeEventListener(toBind[--i], handler, false);
                 }
             } else {
                 this.onmousewheel = null;
@@ -60,7 +60,7 @@
             $.removeData(this, 'mousewheel-page-height');
         },
 
-        getLineHeight: function(elem) {
+        getLineHeight: function (elem) {
             var $elem = $(elem),
                 $parent = $elem['offsetParent' in $.fn ? 'offsetParent' : 'parent']();
             if (!$parent.length) {
@@ -69,7 +69,7 @@
             return parseInt($parent.css('fontSize'), 10) || parseInt($elem.css('fontSize'), 10) || 16;
         },
 
-        getPageHeight: function(elem) {
+        getPageHeight: function (elem) {
             return $(elem).height();
         },
 
@@ -80,36 +80,44 @@
     };
 
     $.fn.extend({
-        mousewheel: function(fn) {
+        mousewheel: function (fn) {
             return fn ? this.bind('mousewheel', fn) : this.trigger('mousewheel');
         },
 
-        unmousewheel: function(fn) {
+        unmousewheel: function (fn) {
             return this.unbind('mousewheel', fn);
         }
     });
 
 
     function handler(event) {
-        var orgEvent   = event || window.event,
-            args       = slice.call(arguments, 1),
-            delta      = 0,
-            deltaX     = 0,
-            deltaY     = 0,
-            absDelta   = 0,
-            offsetX    = 0,
-            offsetY    = 0;
+        var orgEvent = event || window.event,
+            args = slice.call(arguments, 1),
+            delta = 0,
+            deltaX = 0,
+            deltaY = 0,
+            absDelta = 0,
+            offsetX = 0,
+            offsetY = 0;
         event = $.event.fix(orgEvent);
         event.type = 'mousewheel';
 
         // Old school scrollwheel delta
-        if ( 'detail'      in orgEvent ) { deltaY = orgEvent.detail * -1;      }
-        if ( 'wheelDelta'  in orgEvent ) { deltaY = orgEvent.wheelDelta;       }
-        if ( 'wheelDeltaY' in orgEvent ) { deltaY = orgEvent.wheelDeltaY;      }
-        if ( 'wheelDeltaX' in orgEvent ) { deltaX = orgEvent.wheelDeltaX * -1; }
+        if ('detail' in orgEvent) {
+            deltaY = orgEvent.detail * -1;
+        }
+        if ('wheelDelta' in orgEvent) {
+            deltaY = orgEvent.wheelDelta;
+        }
+        if ('wheelDeltaY' in orgEvent) {
+            deltaY = orgEvent.wheelDeltaY;
+        }
+        if ('wheelDeltaX' in orgEvent) {
+            deltaX = orgEvent.wheelDeltaX * -1;
+        }
 
         // Firefox < 17 horizontal scrolling related to DOMMouseScroll event
-        if ( 'axis' in orgEvent && orgEvent.axis === orgEvent.HORIZONTAL_AXIS ) {
+        if ('axis' in orgEvent && orgEvent.axis === orgEvent.HORIZONTAL_AXIS) {
             deltaX = deltaY * -1;
             deltaY = 0;
         }
@@ -118,62 +126,66 @@
         delta = deltaY === 0 ? deltaX : deltaY;
 
         // New school wheel delta (wheel event)
-        if ( 'deltaY' in orgEvent ) {
+        if ('deltaY' in orgEvent) {
             deltaY = orgEvent.deltaY * -1;
-            delta  = deltaY;
+            delta = deltaY;
         }
-        if ( 'deltaX' in orgEvent ) {
+        if ('deltaX' in orgEvent) {
             deltaX = orgEvent.deltaX;
-            if ( deltaY === 0 ) { delta  = deltaX * -1; }
+            if (deltaY === 0) {
+                delta = deltaX * -1;
+            }
         }
 
         // No change actually happened, no reason to go any further
-        if ( deltaY === 0 && deltaX === 0 ) { return; }
+        if (deltaY === 0 && deltaX === 0) {
+            return;
+        }
 
         // Need to convert lines and pages to pixels if we aren't already in pixels
         // There are three delta modes:
         //   * deltaMode 0 is by pixels, nothing to do
         //   * deltaMode 1 is by lines
         //   * deltaMode 2 is by pages
-        if ( orgEvent.deltaMode === 1 ) {
+        if (orgEvent.deltaMode === 1) {
             var lineHeight = $.data(this, 'mousewheel-line-height');
-            delta  *= lineHeight;
+            delta *= lineHeight;
             deltaY *= lineHeight;
             deltaX *= lineHeight;
-        } else if ( orgEvent.deltaMode === 2 ) {
+        } else if (orgEvent.deltaMode === 2) {
             var pageHeight = $.data(this, 'mousewheel-page-height');
-            delta  *= pageHeight;
+            delta *= pageHeight;
             deltaY *= pageHeight;
             deltaX *= pageHeight;
         }
 
         // Store lowest absolute delta to normalize the delta values
-        absDelta = Math.max( Math.abs(deltaY), Math.abs(deltaX) );
+        absDelta = Math.max(Math.abs(deltaY), Math.abs(deltaX));
 
-        if ( !lowestDelta || absDelta < lowestDelta ) {
+        if (!lowestDelta || absDelta < lowestDelta) {
             lowestDelta = absDelta;
 
             // Adjust older deltas if necessary
-            if ( shouldAdjustOldDeltas(orgEvent, absDelta) ) {
+            if (shouldAdjustOldDeltas(orgEvent, absDelta)) {
                 lowestDelta /= 40;
             }
         }
 
         // Adjust older deltas if necessary
-        if ( shouldAdjustOldDeltas(orgEvent, absDelta) ) {
+        if (shouldAdjustOldDeltas(orgEvent, absDelta)) {
             // Divide all the things by 40!
-            delta  /= 40;
+            delta /= 40;
             deltaX /= 40;
             deltaY /= 40;
         }
 
         // Get a whole, normalized value for the deltas
-        delta  = Math[ delta  >= 1 ? 'floor' : 'ceil' ](delta  / lowestDelta);
-        deltaX = Math[ deltaX >= 1 ? 'floor' : 'ceil' ](deltaX / lowestDelta);
-        deltaY = Math[ deltaY >= 1 ? 'floor' : 'ceil' ](deltaY / lowestDelta);
+        delta = Math[delta >= 1 ? 'floor' : 'ceil'](delta / lowestDelta);
+        deltaX = Math[deltaX >= 1 ? 'floor' : 'ceil'](deltaX / lowestDelta);
+        deltaY = Math[deltaY >= 1 ? 'floor' : 'ceil'](deltaY / lowestDelta);
 
         // Normalise offsetX and offsetY properties
-        if ( special.settings.normalizeOffset && this.getBoundingClientRect ) {
+        if (special.settings.normalizeOffset && this.getBoundingClientRect) {
             var boundingRect = this.getBoundingClientRect();
             offsetX = event.clientX - boundingRect.left;
             offsetY = event.clientY - boundingRect.top;
@@ -197,7 +209,9 @@
         // handle multiple device types that give different
         // a different lowestDelta
         // Ex: trackpad = 3 and mouse wheel = 120
-        if (nullLowestDeltaTimeout) { clearTimeout(nullLowestDeltaTimeout); }
+        if (nullLowestDeltaTimeout) {
+            clearTimeout(nullLowestDeltaTimeout);
+        }
         nullLowestDeltaTimeout = setTimeout(nullLowestDelta, 200);
 
         return ($.event.dispatch || $.event.handle).apply(this, args);
@@ -231,100 +245,152 @@
 // └───────────────────────────────────────────────────────────────────────────────────────────────────────┘ \\
 
 (function webpackUniversalModuleDefinition(root, factory) {
-    if(typeof exports === 'object' && typeof module === 'object')
+    if (typeof exports === 'object' && typeof module === 'object')
         module.exports = factory();
-    else if(typeof define === 'function' && define.amd)
+    else if (typeof define === 'function' && define.amd)
         define([], factory);
-    else if(typeof exports === 'object')
+    else if (typeof exports === 'object')
         exports["Raphael"] = factory();
     else
         root["Raphael"] = factory();
-})(window, function() {
-    return /******/ (function(modules) { // webpackBootstrap
+})(window, function () {
+    return /******/ (function (modules) { // webpackBootstrap
         /******/ 	// The module cache
-        /******/ 	var installedModules = {};
+        /******/
+        var installedModules = {};
         /******/
         /******/ 	// The require function
-        /******/ 	function __webpack_require__(moduleId) {
+        /******/
+        function __webpack_require__(moduleId) {
             /******/
             /******/ 		// Check if module is in cache
-            /******/ 		if(installedModules[moduleId]) {
-                /******/ 			return installedModules[moduleId].exports;
-                /******/ 		}
+            /******/
+            if (installedModules[moduleId]) {
+                /******/
+                return installedModules[moduleId].exports;
+                /******/
+            }
             /******/ 		// Create a new module (and put it into the cache)
-            /******/ 		var module = installedModules[moduleId] = {
-                /******/ 			i: moduleId,
-                /******/ 			l: false,
-                /******/ 			exports: {}
-                /******/ 		};
+            /******/
+            var module = installedModules[moduleId] = {
+                /******/            i: moduleId,
+                /******/            l: false,
+                /******/            exports: {}
+                /******/
+            };
             /******/
             /******/ 		// Execute the module function
-            /******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+            /******/
+            modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
             /******/
             /******/ 		// Flag the module as loaded
-            /******/ 		module.l = true;
+            /******/
+            module.l = true;
             /******/
             /******/ 		// Return the exports of the module
-            /******/ 		return module.exports;
-            /******/ 	}
+            /******/
+            return module.exports;
+            /******/
+        }
+
         /******/
         /******/
         /******/ 	// expose the modules object (__webpack_modules__)
-        /******/ 	__webpack_require__.m = modules;
+        /******/
+        __webpack_require__.m = modules;
         /******/
         /******/ 	// expose the module cache
-        /******/ 	__webpack_require__.c = installedModules;
+        /******/
+        __webpack_require__.c = installedModules;
         /******/
         /******/ 	// define getter function for harmony exports
-        /******/ 	__webpack_require__.d = function(exports, name, getter) {
-            /******/ 		if(!__webpack_require__.o(exports, name)) {
-                /******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
-                /******/ 		}
-            /******/ 	};
+        /******/
+        __webpack_require__.d = function (exports, name, getter) {
+            /******/
+            if (!__webpack_require__.o(exports, name)) {
+                /******/
+                Object.defineProperty(exports, name, {enumerable: true, get: getter});
+                /******/
+            }
+            /******/
+        };
         /******/
         /******/ 	// define __esModule on exports
-        /******/ 	__webpack_require__.r = function(exports) {
-            /******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
-                /******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
-                /******/ 		}
-            /******/ 		Object.defineProperty(exports, '__esModule', { value: true });
-            /******/ 	};
+        /******/
+        __webpack_require__.r = function (exports) {
+            /******/
+            if (typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+                /******/
+                Object.defineProperty(exports, Symbol.toStringTag, {value: 'Module'});
+                /******/
+            }
+            /******/
+            Object.defineProperty(exports, '__esModule', {value: true});
+            /******/
+        };
         /******/
         /******/ 	// create a fake namespace object
         /******/ 	// mode & 1: value is a module id, require it
         /******/ 	// mode & 2: merge all properties of value into the ns
         /******/ 	// mode & 4: return value when already ns object
         /******/ 	// mode & 8|1: behave like require
-        /******/ 	__webpack_require__.t = function(value, mode) {
-            /******/ 		if(mode & 1) value = __webpack_require__(value);
-            /******/ 		if(mode & 8) return value;
-            /******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
-            /******/ 		var ns = Object.create(null);
-            /******/ 		__webpack_require__.r(ns);
-            /******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
-            /******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
-            /******/ 		return ns;
-            /******/ 	};
+        /******/
+        __webpack_require__.t = function (value, mode) {
+            /******/
+            if (mode & 1) value = __webpack_require__(value);
+            /******/
+            if (mode & 8) return value;
+            /******/
+            if ((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+            /******/
+            var ns = Object.create(null);
+            /******/
+            __webpack_require__.r(ns);
+            /******/
+            Object.defineProperty(ns, 'default', {enumerable: true, value: value});
+            /******/
+            if (mode & 2 && typeof value != 'string') for (var key in value) __webpack_require__.d(ns, key, function (key) {
+                return value[key];
+            }.bind(null, key));
+            /******/
+            return ns;
+            /******/
+        };
         /******/
         /******/ 	// getDefaultExport function for compatibility with non-harmony modules
-        /******/ 	__webpack_require__.n = function(module) {
-            /******/ 		var getter = module && module.__esModule ?
-                /******/ 			function getDefault() { return module['default']; } :
-                /******/ 			function getModuleExports() { return module; };
-            /******/ 		__webpack_require__.d(getter, 'a', getter);
-            /******/ 		return getter;
-            /******/ 	};
+        /******/
+        __webpack_require__.n = function (module) {
+            /******/
+            var getter = module && module.__esModule ?
+                /******/            function getDefault() {
+                    return module['default'];
+                } :
+                /******/            function getModuleExports() {
+                    return module;
+                };
+            /******/
+            __webpack_require__.d(getter, 'a', getter);
+            /******/
+            return getter;
+            /******/
+        };
         /******/
         /******/ 	// Object.prototype.hasOwnProperty.call
-        /******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+        /******/
+        __webpack_require__.o = function (object, property) {
+            return Object.prototype.hasOwnProperty.call(object, property);
+        };
         /******/
         /******/ 	// __webpack_public_path__
-        /******/ 	__webpack_require__.p = "";
+        /******/
+        __webpack_require__.p = "";
         /******/
         /******/
         /******/ 	// Load entry module and return exports
-        /******/ 	return __webpack_require__(__webpack_require__.s = "./dev/raphael.amd.js");
-        /******/ })
+        /******/
+        return __webpack_require__(__webpack_require__.s = "./dev/raphael.amd.js");
+        /******/
+    })
         /************************************************************************/
         /******/ ({
 
@@ -333,25 +399,28 @@
   !*** ./dev/raphael.amd.js ***!
   \****************************/
             /*! no static exports found */
-            /***/ (function(module, exports, __webpack_require__) {
+            /***/ (function (module, exports, __webpack_require__) {
 
-                var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(/*! ./raphael.core */ "./dev/raphael.core.js"), __webpack_require__(/*! ./raphael.svg */ "./dev/raphael.svg.js"), __webpack_require__(/*! ./raphael.vml */ "./dev/raphael.vml.js")], __WEBPACK_AMD_DEFINE_RESULT__ = (function(R) {
+                var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;
+                !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(/*! ./raphael.core */ "./dev/raphael.core.js"), __webpack_require__(/*! ./raphael.svg */ "./dev/raphael.svg.js"), __webpack_require__(/*! ./raphael.vml */ "./dev/raphael.vml.js")], __WEBPACK_AMD_DEFINE_RESULT__ = (function (R) {
 
                     return R;
 
                 }).apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
                 __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
-                /***/ }),
+                /***/
+            }),
 
             /***/ "./dev/raphael.core.js":
             /*!*****************************!*\
   !*** ./dev/raphael.core.js ***!
   \*****************************/
             /*! no static exports found */
-            /***/ (function(module, exports, __webpack_require__) {
+            /***/ (function (module, exports, __webpack_require__) {
 
-                var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(/*! eve */ "./node_modules/eve-raphael/eve.js")], __WEBPACK_AMD_DEFINE_RESULT__ = (function(eve) {
+                var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;
+                !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(/*! eve */ "./node_modules/eve-raphael/eve.js")], __WEBPACK_AMD_DEFINE_RESULT__ = (function (eve) {
 
                     /*\
      * Raphael
@@ -420,6 +489,7 @@
                             }
                         }
                     }
+
                     R.version = "2.3.0";
                     R.eve = eve;
                     var loaded,
@@ -589,7 +659,8 @@
                         sortByNumber = function (a, b) {
                             return toFloat(a) - toFloat(b);
                         },
-                        fun = function () {},
+                        fun = function () {
+                        },
                         pipe = function (x) {
                             return x;
                         },
@@ -629,7 +700,7 @@
                                 var bbox = el._getBBox();
                                 return rectPath(bbox.x, bbox.y, bbox.width, bbox.height);
                             },
-                            set : function(el) {
+                            set: function (el) {
                                 var bbox = el._getBBox();
                                 return rectPath(bbox.x, bbox.y, bbox.width, bbox.height);
                             }
@@ -741,7 +812,7 @@
                         if (type == "array") {
                             return o instanceof Array;
                         }
-                        return  (type == "null" && o === null) ||
+                        return (type == "null" && o === null) ||
                             (type == typeof o && o !== null) ||
                             (type == "object" && o === Object(o)) ||
                             (type == "array" && Array.isArray && Array.isArray(o)) ||
@@ -807,7 +878,7 @@
      = (number) angle in degrees.
     \*/
                     R.deg = function (rad) {
-                        return Math.round ((rad * 180 / PI% 360)* 1000) / 1000;
+                        return Math.round((rad * 180 / PI % 360) * 1000) / 1000;
                     };
                     /*\
      * Raphael.snapTo
@@ -882,7 +953,7 @@
                                     docum.write("<body>");
                                     docum.close();
                                     bod = docum.body;
-                                } catch(e) {
+                                } catch (e) {
                                     bod = createPopup().document.body;
                                 }
                                 var range = bod.createTextRange();
@@ -892,7 +963,7 @@
                                         var value = range.queryCommandValue("ForeColor");
                                         value = ((value & 255) << 16) | (value & 65280) | ((value & 16711680) >>> 16);
                                         return "#" + ("000000" + value.toString(16)).slice(-6);
-                                    } catch(e) {
+                                    } catch (e) {
                                         return "none";
                                     }
                                 });
@@ -1157,11 +1228,13 @@
                     R._path2string = function () {
                         return this.join(",").replace(p2s, "$1");
                     };
+
                     function repush(array, item) {
                         for (var i = 0, ii = array.length; i < ii; i++) if (array[i] === item) {
                             return array.push(array.splice(i, 1)[0]);
                         }
                     }
+
                     function cacher(f, scope, postprocessor) {
                         function newf() {
                             var arg = Array.prototype.slice.call(arguments, 0),
@@ -1177,6 +1250,7 @@
                             cache[args] = f[apply](scope, arg);
                             return postprocessor ? postprocessor(cache[args]) : cache[args];
                         }
+
                         return newf;
                     }
 
@@ -1337,7 +1411,10 @@
      = (string) hex representation of the colour.
     \*/
                     R.rgb = cacher(function (r, g, b) {
-                        function round(x) { return (x + 0.5) | 0; }
+                        function round(x) {
+                            return (x + 0.5) | 0;
+                        }
+
                         return "#" + (16777216 | round(b) | (round(g) << 8) | (round(r) << 16)).toString(16).slice(1);
                     });
                     /*\
@@ -1376,7 +1453,7 @@
                         for (var i = 0, iLen = crp.length; iLen - 2 * !z > i; i += 2) {
                             var p = [
                                 {x: +crp[i - 2], y: +crp[i - 1]},
-                                {x: +crp[i],     y: +crp[i + 1]},
+                                {x: +crp[i], y: +crp[i + 1]},
                                 {x: +crp[i + 2], y: +crp[i + 3]},
                                 {x: +crp[i + 4], y: +crp[i + 5]}
                             ];
@@ -1400,7 +1477,7 @@
                                 (-p[0].x + 6 * p[1].x + p[2].x) / 6,
                                 (-p[0].y + 6 * p[1].y + p[2].y) / 6,
                                 (p[1].x + 6 * p[2].x - p[3].x) / 6,
-                                (p[1].y + 6*p[2].y - p[3].y) / 6,
+                                (p[1].y + 6 * p[2].y - p[3].y) / 6,
                                 p[2].x,
                                 p[2].y
                             ]);
@@ -1408,6 +1485,7 @@
 
                         return d;
                     }
+
                     /*\
      * Raphael.parsePathString
      [ method ]
@@ -1491,7 +1569,7 @@
                         }
                         data.toString = R._path2string;
                         return data;
-                    }, this, function(elem) {
+                    }, this, function (elem) {
                         if (!elem) return elem;
                         var newData = [];
                         for (var i = 0; i < elem.length; i++) {
@@ -1501,7 +1579,8 @@
                             }
                             newData.push(newLevel);
                         }
-                        return newData; } );
+                        return newData;
+                    });
                     // PATHS
                     var paths = function (ps) {
                         var p = paths.ps = paths.ps || {};
@@ -1673,11 +1752,13 @@
                             || (bbox1.x < bbox2.x2 && bbox1.x > bbox2.x || bbox2.x < bbox1.x2 && bbox2.x > bbox1.x)
                             && (bbox1.y < bbox2.y2 && bbox1.y > bbox2.y || bbox2.y < bbox1.y2 && bbox2.y > bbox1.y);
                     };
+
                     function base3(t, p1, p2, p3, p4) {
                         var t1 = -3 * p1 + 9 * p2 - 9 * p3 + 3 * p4,
                             t2 = t * t1 + 6 * p1 - 12 * p2 + 6 * p3;
                         return t * t2 - 3 * p1 + 3 * p2;
                     }
+
                     function bezlen(x1, y1, x2, y2, x3, y3, x4, y4, z) {
                         if (z == null) {
                             z = 1;
@@ -1685,8 +1766,8 @@
                         z = z > 1 ? 1 : z < 0 ? 0 : z;
                         var z2 = z / 2,
                             n = 12,
-                            Tvalues = [-0.1252,0.1252,-0.3678,0.3678,-0.5873,0.5873,-0.7699,0.7699,-0.9041,0.9041,-0.9816,0.9816],
-                            Cvalues = [0.2491,0.2491,0.2335,0.2335,0.2032,0.2032,0.1601,0.1601,0.1069,0.1069,0.0472,0.0472],
+                            Tvalues = [-0.1252, 0.1252, -0.3678, 0.3678, -0.5873, 0.5873, -0.7699, 0.7699, -0.9041, 0.9041, -0.9816, 0.9816],
+                            Cvalues = [0.2491, 0.2491, 0.2335, 0.2335, 0.2032, 0.2032, 0.1601, 0.1601, 0.1069, 0.1069, 0.0472, 0.0472],
                             sum = 0;
                         for (var i = 0; i < n; i++) {
                             var ct = z2 * Tvalues[i] + z2,
@@ -1697,6 +1778,7 @@
                         }
                         return z2 * sum;
                     }
+
                     function getTatLen(x1, y1, x2, y2, x3, y3, x4, y4, ll) {
                         if (ll < 0 || bezlen(x1, y1, x2, y2, x3, y3, x4, y4) < ll) {
                             return;
@@ -1714,6 +1796,7 @@
                         }
                         return t2;
                     }
+
                     function intersect(x1, y1, x2, y2, x3, y3, x4, y4) {
                         if (
                             mmax(x1, x2) < mmin(x3, x4) ||
@@ -1748,12 +1831,15 @@
                         }
                         return {x: px, y: py};
                     }
+
                     function inter(bez1, bez2) {
                         return interHelper(bez1, bez2);
                     }
+
                     function interCount(bez1, bez2) {
                         return interHelper(bez1, bez2, 1);
                     }
+
                     function interHelper(bez1, bez2, justCount) {
                         var bbox1 = R.bezierBBox(bez1),
                             bbox2 = R.bezierBBox(bez2);
@@ -1809,6 +1895,7 @@
                         }
                         return res;
                     }
+
                     /*\
      * Raphael.pathIntersection
      [ method ]
@@ -1839,6 +1926,7 @@
                     R.pathIntersectionNumber = function (path1, path2) {
                         return interPathHelper(path1, path2, 1);
                     };
+
                     function interPathHelper(path1, path2, justCount) {
                         path1 = R._path2curve(path1);
                         path2 = R._path2curve(path2);
@@ -1892,6 +1980,7 @@
                         }
                         return res;
                     }
+
                     /*\
      * Raphael.isPointInsidePath
      [ method ]
@@ -2329,7 +2418,7 @@
                                 attrs = {x: 0, y: 0, bx: 0, by: 0, X: 0, Y: 0, qx: null, qy: null},
                                 attrs2 = {x: 0, y: 0, bx: 0, by: 0, X: 0, Y: 0, qx: null, qy: null},
                                 processPath = function (path, d, pcom) {
-                                    var nx, ny, tq = {T:1, Q:1};
+                                    var nx, ny, tq = {T: 1, Q: 1};
                                     if (!path) {
                                         return ["C", d.x, d.y, d.x, d.y, d.x, d.y];
                                     }
@@ -2346,8 +2435,7 @@
                                             if (pcom == "C" || pcom == "S") { // In "S" case we have to take into account, if the previous command is C/S.
                                                 nx = d.x * 2 - d.bx;          // And reflect the previous
                                                 ny = d.y * 2 - d.by;          // command's control point relative to the current point.
-                                            }
-                                            else {                            // or some else or nothing
+                                            } else {                            // or some else or nothing
                                                 nx = d.x;
                                                 ny = d.y;
                                             }
@@ -2357,8 +2445,7 @@
                                             if (pcom == "Q" || pcom == "T") { // In "T" case we have to take into account, if the previous command is Q/T.
                                                 d.qx = d.x * 2 - d.qx;        // And make a reflection similar
                                                 d.qy = d.y * 2 - d.qy;        // to case "S".
-                                            }
-                                            else {                            // or something else or nothing
+                                            } else {                            // or something else or nothing
                                                 d.qx = d.x;
                                                 d.qy = d.y;
                                             }
@@ -2389,8 +2476,8 @@
                                         pp[i].shift();
                                         var pi = pp[i];
                                         while (pi.length) {
-                                            pcoms1[i]="A"; // if created multiple C:s, their original seg is saved
-                                            p2 && (pcoms2[i]="A"); // the same as above
+                                            pcoms1[i] = "A"; // if created multiple C:s, their original seg is saved
+                                            p2 && (pcoms2[i] = "A"); // the same as above
                                             pp.splice(i++, 0, ["C"][concat](pi.splice(0, 6)));
                                         }
                                         pp.splice(i, 1);
@@ -2417,7 +2504,7 @@
                                 if (pfirst != "C") // C is not saved yet, because it may be result of conversion
                                 {
                                     pcoms1[i] = pfirst; // Save current path command
-                                    i && ( pcom = pcoms1[i-1]); // Get previous path command pcom
+                                    i && (pcom = pcoms1[i - 1]); // Get previous path command pcom
                                 }
                                 p[i] = processPath(p[i], attrs, pcom); // Previous path command is inputted to processPath
 
@@ -2429,14 +2516,13 @@
 
                                 if (p2) { // the same procedures is done to p2
                                     p2[i] && (pfirst = p2[i][0]);
-                                    if (pfirst != "C")
-                                    {
+                                    if (pfirst != "C") {
                                         pcoms2[i] = pfirst;
-                                        i && (pcom = pcoms2[i-1]);
+                                        i && (pcom = pcoms2[i - 1]);
                                     }
                                     p2[i] = processPath(p2[i], attrs2, pcom);
 
-                                    if (pcoms2[i]!="A" && pfirst=="C") pcoms2[i]="C";
+                                    if (pcoms2[i] != "A" && pfirst == "C") pcoms2[i] = "C";
 
                                     fixArc(p2, i);
                                 }
@@ -2680,20 +2766,24 @@
                         getEmpty = function (item) {
                             var l = item[0];
                             switch (l.toLowerCase()) {
-                                case "t": return [l, 0, 0];
-                                case "m": return [l, 1, 0, 0, 1, 0, 0];
-                                case "r": if (item.length == 4) {
-                                    return [l, 0, item[2], item[3]];
-                                } else {
-                                    return [l, 0];
-                                }
-                                case "s": if (item.length == 5) {
-                                    return [l, 1, 1, item[3], item[4]];
-                                } else if (item.length == 3) {
-                                    return [l, 1, 1];
-                                } else {
-                                    return [l, 1];
-                                }
+                                case "t":
+                                    return [l, 0, 0];
+                                case "m":
+                                    return [l, 1, 0, 0, 1, 0, 0];
+                                case "r":
+                                    if (item.length == 4) {
+                                        return [l, 0, item[2], item[3]];
+                                    } else {
+                                        return [l, 0];
+                                    }
+                                case "s":
+                                    if (item.length == 5) {
+                                        return [l, 1, 1, item[3], item[4]];
+                                    } else if (item.length == 3) {
+                                        return [l, 1, 1];
+                                    } else {
+                                        return [l, 1];
+                                    }
                             }
                         },
                         equaliseTransform = R._equaliseTransform = function (t1, t2) {
@@ -2799,6 +2889,7 @@
                     R.matrix = function (a, b, c, d, e, f) {
                         return new Matrix(a, b, c, d, e, f);
                     };
+
                     function Matrix(a, b, c, d, e, f) {
                         if (a != null) {
                             this.a = +a;
@@ -2816,6 +2907,7 @@
                             this.f = 0;
                         }
                     }
+
                     (function (matrixproto) {
                         /*\
          * Matrix.add
@@ -2970,14 +3062,17 @@
                         matrixproto.offset = function () {
                             return [this.e.toFixed(4), this.f.toFixed(4)];
                         };
+
                         function norm(a) {
                             return a[0] * a[0] + a[1] * a[1];
                         }
+
                         function normalize(a) {
                             var mag = math.sqrt(norm(a));
                             a[0] && (a[0] /= mag);
                             a[1] && (a[1] /= mag);
                         }
+
                         /*\
          * Matrix.split
          [ method ]
@@ -3040,7 +3135,7 @@
                                 s.scalex = +s.scalex.toFixed(4);
                                 s.scaley = +s.scaley.toFixed(4);
                                 s.rotate = +s.rotate.toFixed(4);
-                                return  (s.dx || s.dy ? "t" + [s.dx, s.dy] : E) +
+                                return (s.dx || s.dy ? "t" + [s.dx, s.dy] : E) +
                                     (s.scalex != 1 || s.scaley != 1 ? "s" + [s.scalex, s.scaley, 0, 0] : E) +
                                     (s.rotate ? "r" + [s.rotate, 0, 0] : E);
                             } else {
@@ -3409,14 +3504,18 @@
                             R[eventName] = elproto[eventName] = function (fn, scope) {
                                 if (R.is(fn, "function")) {
                                     this.events = this.events || [];
-                                    this.events.push({name: eventName, f: fn, unbind: addEvent(this.shape || this.node || g.doc, eventName, fn, scope || this)});
+                                    this.events.push({
+                                        name: eventName,
+                                        f: fn,
+                                        unbind: addEvent(this.shape || this.node || g.doc, eventName, fn, scope || this)
+                                    });
                                 }
                                 return this;
                             };
                             R["un" + eventName] = elproto["un" + eventName] = function (fn) {
                                 var events = this.events || [],
                                     l = events.length;
-                                while (l--){
+                                while (l--) {
                                     if (events[l].name == eventName && (R.is(fn, "undefined") || events[l].f == fn)) {
                                         events[l].unbind();
                                         events.splice(l, 1);
@@ -3582,12 +3681,18 @@
                             this._drag.x = x + scrollX;
                             this._drag.y = y + scrollY;
                             !drag.length && R.mousemove(dragMove).mouseup(dragUp);
-                            drag.push({el: this, move_scope: move_scope, start_scope: start_scope, end_scope: end_scope});
+                            drag.push({
+                                el: this,
+                                move_scope: move_scope,
+                                start_scope: start_scope,
+                                end_scope: end_scope
+                            });
                             onstart && eve.on("raphael.drag.start." + this.id, onstart);
                             onmove && eve.on("raphael.drag.move." + this.id, onmove);
                             onend && eve.on("raphael.drag.end." + this.id, onend);
                             eve("raphael.drag.start." + this.id, start_scope || move_scope || this, this._drag.x, this._drag.y, e);
                         }
+
                         this._drag = {};
                         draggable.push({el: this, start: start});
                         this.mousedown(start);
@@ -3898,8 +4003,9 @@
                             doc = elem.ownerDocument,
                             body = doc.body,
                             docElem = doc.documentElement,
-                            clientTop = docElem.clientTop || body.clientTop || 0, clientLeft = docElem.clientLeft || body.clientLeft || 0,
-                            top  = box.top  + (g.win.pageYOffset || docElem.scrollTop || body.scrollTop ) - clientTop,
+                            clientTop = docElem.clientTop || body.clientTop || 0,
+                            clientLeft = docElem.clientLeft || body.clientLeft || 0,
+                            top = box.top + (g.win.pageYOffset || docElem.scrollTop || body.scrollTop) - clientTop,
                             left = box.left + (g.win.pageXOffset || docElem.scrollLeft || body.scrollLeft) - clientLeft;
                         return {
                             y: top,
@@ -4037,12 +4143,15 @@
                         });
                         return set;
                     };
+
                     function x_y() {
                         return this.x + S + this.y;
                     }
+
                     function x_y_w_h() {
                         return this.x + S + this.y + S + this.width + " \xd7 " + this.height;
                     }
+
                     /*\
      * Element.isPointInside
      [ method ]
@@ -4196,7 +4305,9 @@
                                             if (subpath && !subpaths.start) {
                                                 point = getPointAtSegmentLength(x, y, p[1], p[2], p[3], p[4], p[5], p[6], length - len);
                                                 sp += ["C" + point.start.x, point.start.y, point.m.x, point.m.y, point.x, point.y];
-                                                if (onlystart) {return sp;}
+                                                if (onlystart) {
+                                                    return sp;
+                                                }
                                                 subpaths.start = sp;
                                                 sp = ["M" + point.x, point.y + "C" + point.n.x, point.n.y, point.end.x, point.end.y, p[5], p[6]].join();
                                                 len += l;
@@ -4446,11 +4557,11 @@
                     ef["back-out"] = ef.backOut;
 
                     var animationElements = [],
-                        requestAnimFrame = window.requestAnimationFrame       ||
+                        requestAnimFrame = window.requestAnimationFrame ||
                             window.webkitRequestAnimationFrame ||
-                            window.mozRequestAnimationFrame    ||
-                            window.oRequestAnimationFrame      ||
-                            window.msRequestAnimationFrame     ||
+                            window.mozRequestAnimationFrame ||
+                            window.oRequestAnimationFrame ||
+                            window.msRequestAnimationFrame ||
                             function (callback) {
                                 setTimeout(callback, 16);
                             },
@@ -4554,8 +4665,8 @@
                                         });
                                     })(that.id, that, e.anim);
                                 } else {
-                                    (function(f, el, a) {
-                                        setTimeout(function() {
+                                    (function (f, el, a) {
+                                        setTimeout(function () {
                                             eve("raphael.anim.frame." + el.id, el, a);
                                             eve("raphael.anim.finish." + el.id, el, a);
                                             R.is(f, "function") && f.call(el);
@@ -4623,6 +4734,7 @@
                         //     status = element.status(anim);
                         // return this.animate(a).status(a, status * anim.ms / a.ms);
                     };
+
                     function CubicBezierAtTime(t, p1x, p1y, p2x, p2y, duration) {
                         var cx = 3 * p1x,
                             bx = 3 * (p2x - p1x) - cx,
@@ -4630,16 +4742,19 @@
                             cy = 3 * p1y,
                             by = 3 * (p2y - p1y) - cy,
                             ay = 1 - cy - by;
+
                         function sampleCurveX(t) {
                             return ((ax * t + bx) * t + cx) * t;
                         }
+
                         function solve(x, epsilon) {
                             var t = solveCurveX(x, epsilon);
                             return ((ay * t + by) * t + cy) * t;
                         }
+
                         function solveCurveX(x, epsilon) {
                             var t0, t1, t2, x2, d2, i;
-                            for(t2 = x, i = 0; i < 8; i++) {
+                            for (t2 = x, i = 0; i < 8; i++) {
                                 x2 = sampleCurveX(t2) - x;
                                 if (abs(x2) < epsilon) {
                                     return t2;
@@ -4673,12 +4788,15 @@
                             }
                             return t2;
                         }
+
                         return solve(t, 1 / (200 * duration));
                     }
+
                     elproto.onAnimation = function (f) {
                         f ? eve.on("raphael.anim.frame." + this.id, f) : eve.unbind("raphael.anim.frame." + this.id);
                         return this;
                     };
+
                     function Animation(anim, ms) {
                         var percents = [],
                             newAnim = {};
@@ -4695,6 +4813,7 @@
                         this.top = percents[percents.length - 1];
                         this.percents = percents;
                     }
+
                     /*\
      * Animation.delay
      [ method ]
@@ -4734,6 +4853,7 @@
                         a.times = math.floor(mmax(times, 0)) || 1;
                         return a;
                     };
+
                     function runAnimation(anim, element, percent, status, totalOrigin, times) {
                         percent = toFloat(percent);
                         var params,
@@ -4940,6 +5060,7 @@
                         }
                         eve("raphael.anim.start." + element.id, element, anim);
                     }
+
                     /*\
      * Raphael.animation
      [ method ]
@@ -4975,12 +5096,12 @@
                         }
                         if (!json) {
                             // if percent-like syntax is used and end-of-all animation callback used
-                            if(callback){
+                            if (callback) {
                                 // find the last one
                                 var lastKey = 0;
-                                for(var i in params){
+                                for (var i in params) {
                                     var percent = toInt(i);
-                                    if(params[has](i) && percent > lastKey){
+                                    if (params[has](i) && percent > lastKey) {
                                         lastKey = percent;
                                     }
                                 }
@@ -5155,11 +5276,13 @@
                         }
                         return this;
                     };
+
                     function stopAnimation(paper) {
                         for (var i = 0; i < animationElements.length; i++) if (animationElements[i].el.paper == paper) {
                             animationElements.splice(i--, 1);
                         }
                     }
+
                     eve.on("raphael.remove", stopAnimation);
                     eve.on("raphael.clear", stopAnimation);
                     elproto.toString = function () {
@@ -5388,12 +5511,12 @@
                         return "Rapha\xebl\u2018s set";
                     };
 
-                    setproto.glow = function(glowConfig) {
+                    setproto.glow = function (glowConfig) {
                         var ret = this.paper.set();
-                        this.forEach(function(shape, index){
+                        this.forEach(function (shape, index) {
                             var g = shape.glow(glowConfig);
-                            if(g != null){
-                                g.forEach(function(shape2, index2){
+                            if (g != null) {
+                                g.forEach(function (shape2, index2) {
                                     ret.push(shape2);
                                 });
                             }
@@ -5720,7 +5843,8 @@
                             window.Raphael = undefined;
                             try {
                                 delete window.Raphael;
-                            } catch(e) {}
+                            } catch (e) {
+                            }
                         }
                         return R;
                     };
@@ -5752,16 +5876,18 @@
 
                     // Firefox <3.6 fix: http://webreflection.blogspot.com/2009/11/195-chars-to-help-lazy-loading.html
                     (function (doc, loaded, f) {
-                        if (doc.readyState == null && doc.addEventListener){
+                        if (doc.readyState == null && doc.addEventListener) {
                             doc.addEventListener(loaded, f = function () {
                                 doc.removeEventListener(loaded, f, false);
                                 doc.readyState = "complete";
                             }, false);
                             doc.readyState = "loading";
                         }
+
                         function isLoaded() {
                             (/in/).test(doc.readyState) ? setTimeout(isLoaded, 9) : R.eve("raphael.DOMload");
                         }
+
                         isLoaded();
                     })(document, "DOMContentLoaded");
 
@@ -5770,16 +5896,18 @@
                 __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 
-                /***/ }),
+                /***/
+            }),
 
             /***/ "./dev/raphael.svg.js":
             /*!****************************!*\
   !*** ./dev/raphael.svg.js ***!
   \****************************/
             /*! no static exports found */
-            /***/ (function(module, exports, __webpack_require__) {
+            /***/ (function (module, exports, __webpack_require__) {
 
-                var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(/*! ./raphael.core */ "./dev/raphael.core.js")], __WEBPACK_AMD_DEFINE_RESULT__ = (function(R) {
+                var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;
+                !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(/*! ./raphael.core */ "./dev/raphael.core.js")], __WEBPACK_AMD_DEFINE_RESULT__ = (function (R) {
                     if (R && !R.svg) {
                         return;
                     }
@@ -5806,7 +5934,7 @@
                         },
                         markerCounter = {};
                     R.toString = function () {
-                        return  "Your browser supports SVG.\nYou are running Rapha\xebl " + this.version;
+                        return "Your browser supports SVG.\nYou are running Rapha\xebl " + this.version;
                     };
                     var $ = function (el, attr) {
                             if (attr) {
@@ -5961,10 +6089,18 @@
                                         case "none":
                                             type = values[i];
                                             break;
-                                        case "wide": h = 5; break;
-                                        case "narrow": h = 2; break;
-                                        case "long": w = 5; break;
-                                        case "short": w = 2; break;
+                                        case "wide":
+                                            h = 5;
+                                            break;
+                                        case "narrow":
+                                            h = 2;
+                                            break;
+                                        case "long":
+                                            w = 5;
+                                            break;
+                                        case "short":
+                                            w = 2;
+                                            break;
                                     }
                                 }
                                 if (type == "open") {
@@ -6088,15 +6224,18 @@
                             value = dasharray[Str(value).toLowerCase()];
                             if (value) {
                                 var width = o.attrs["stroke-width"] || "1",
-                                    butt = {round: width, square: width, butt: 0}[o.attrs["stroke-linecap"] || params["stroke-linecap"]] || 0,
+                                    butt = {
+                                        round: width,
+                                        square: width,
+                                        butt: 0
+                                    }[o.attrs["stroke-linecap"] || params["stroke-linecap"]] || 0,
                                     dashes = [],
                                     i = value.length;
                                 while (i--) {
                                     dashes[i] = value[i] * width + ((i % 2) ? 1 : -1) * butt;
                                 }
                                 $(o.node, {"stroke-dasharray": dashes.join(",")});
-                            }
-                            else {
+                            } else {
                                 $(o.node, {"stroke-dasharray": "none"});
                             }
                         },
@@ -6273,7 +6412,13 @@
                                                 el = $("pattern");
                                                 var ig = $("image");
                                                 el.id = R.createUUID();
-                                                $(el, {x: 0, y: 0, patternUnits: "userSpaceOnUse", height: 1, width: 1});
+                                                $(el, {
+                                                    x: 0,
+                                                    y: 0,
+                                                    patternUnits: "userSpaceOnUse",
+                                                    height: 1,
+                                                    width: 1
+                                                });
                                                 $(ig, {x: 0, y: 0, "xlink:href": isURL[1]});
                                                 el.appendChild(ig);
 
@@ -6447,7 +6592,7 @@
                              * @returns {string} id
                              */
                             function guid() {
-                                return ("0000" + (Math.random()*Math.pow(36,5) << 0).toString(36)).slice(-5);
+                                return ("0000" + (Math.random() * Math.pow(36, 5) << 0).toString(36)).slice(-5);
                             }
 
                             this.matrix = R.matrix();
@@ -6666,7 +6811,7 @@
      = (object) @Element
     \*/
                     elproto.hide = function () {
-                        if(!this.removed) this.node.style.display = "none";
+                        if (!this.removed) this.node.style.display = "none";
                         return this;
                     };
                     /*\
@@ -6677,7 +6822,7 @@
      = (object) @Element
     \*/
                     elproto.show = function () {
-                        if(!this.removed) this.node.style.display = "";
+                        if (!this.removed) this.node.style.display = "";
                         return this;
                     };
                     /*\
@@ -6723,14 +6868,14 @@
                             containerStyle = this.paper.canvas.parentNode.style;
                         }
 
-                        if(containerStyle && containerStyle.display == "none") {
+                        if (containerStyle && containerStyle.display == "none") {
                             canvasHidden = true;
                             containerStyle.display = "";
                         }
                         var bbox = {};
                         try {
                             bbox = this.node.getBBox();
-                        } catch(e) {
+                        } catch (e) {
                             // Firefox 3.0.x, 25.0.1 (probably more versions affected) play badly here - possible fix
                             bbox = {
                                 x: this.node.clientLeft,
@@ -6740,7 +6885,7 @@
                             }
                         } finally {
                             bbox = bbox || {};
-                            if(canvasHidden){
+                            if (canvasHidden) {
                                 containerStyle.display = "none";
                             }
                         }
@@ -6999,7 +7144,16 @@
                         var el = $("rect");
                         svg.canvas && svg.canvas.appendChild(el);
                         var res = new Element(el, svg);
-                        res.attrs = {x: x, y: y, width: w, height: h, rx: r || 0, ry: r || 0, fill: "none", stroke: "#000"};
+                        res.attrs = {
+                            x: x,
+                            y: y,
+                            width: w,
+                            height: h,
+                            rx: r || 0,
+                            ry: r || 0,
+                            fill: "none",
+                            stroke: "#000"
+                        };
                         res.type = "rect";
                         $(el, res.attrs);
                         return res;
@@ -7093,7 +7247,8 @@
                         container.canvas = cnvs;
                         container.clear();
                         container._left = container._top = 0;
-                        isFloating && (container.renderfix = function () {});
+                        isFloating && (container.renderfix = function () {
+                        });
                         container.renderfix();
                         return container;
                     };
@@ -7206,16 +7361,18 @@
                 __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 
-                /***/ }),
+                /***/
+            }),
 
             /***/ "./dev/raphael.vml.js":
             /*!****************************!*\
   !*** ./dev/raphael.vml.js ***!
   \****************************/
             /*! no static exports found */
-            /***/ (function(module, exports, __webpack_require__) {
+            /***/ (function (module, exports, __webpack_require__) {
 
-                var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(/*! ./raphael.core */ "./dev/raphael.core.js")], __WEBPACK_AMD_DEFINE_RESULT__ = (function(R) {
+                var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;
+                !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(/*! ./raphael.core */ "./dev/raphael.core.js")], __WEBPACK_AMD_DEFINE_RESULT__ = (function (R) {
                     if (R && !R.vml) {
                         return;
                     }
@@ -7243,7 +7400,7 @@
                         pathTypes = {path: 1, rect: 1, image: 1},
                         ovalTypes = {circle: 1, ellipse: 1},
                         path2vml = function (path) {
-                            var total =  /[ahqstv]/ig,
+                            var total = /[ahqstv]/ig,
                                 command = R._pathToAbsolute;
                             Str(path).match(total) && (command = R._path2curve);
                             total = /[clmz]/g;
@@ -7326,7 +7483,7 @@
                             s.visibility = "visible";
                         };
                     R.toString = function () {
-                        return  "Your browser doesn\u2019t support SVG. Falling down to VML.\nYou are running Rapha\xebl " + this.version;
+                        return "Your browser doesn\u2019t support SVG. Falling down to VML.\nYou are running Rapha\xebl " + this.version;
                     };
                     var addArrow = function (o, value, isEnd) {
                             var values = Str(value).toLowerCase().split("-"),
@@ -7346,9 +7503,13 @@
                                         type = values[i];
                                         break;
                                     case "wide":
-                                    case "narrow": h = values[i]; break;
+                                    case "narrow":
+                                        h = values[i];
+                                        break;
                                     case "long":
-                                    case "short": w = values[i]; break;
+                                    case "short":
+                                        w = values[i];
+                                        break;
                                 }
                             }
                             var stroke = o.node.getElementsByTagName("stroke")[0];
@@ -7475,7 +7636,10 @@
                                         fill.color = R.getRGB(params.fill).hex;
                                         fill.src = E;
                                         fill.type = "solid";
-                                        if (R.getRGB(params.fill).error && (res.type in {circle: 1, ellipse: 1} || Str(params.fill).charAt() != "r") && addGradientFill(res, params.fill, fill)) {
+                                        if (R.getRGB(params.fill).error && (res.type in {
+                                            circle: 1,
+                                            ellipse: 1
+                                        } || Str(params.fill).charAt() != "r") && addGradientFill(res, params.fill, fill)) {
                                             a.fill = "none";
                                             a.gradient = params.fill;
                                             fill.rotate = false;
@@ -7788,17 +7952,16 @@
                     };
                     // Needed to fix the vml setViewBox issues
                     elproto.auxGetBBox = R.el.getBBox;
-                    elproto.getBBox = function(){
+                    elproto.getBBox = function () {
                         var b = this.auxGetBBox();
-                        if (this.paper && this.paper._viewBoxShift)
-                        {
+                        if (this.paper && this.paper._viewBoxShift) {
                             var c = {};
-                            var z = 1/this.paper._viewBoxShift.scale;
+                            var z = 1 / this.paper._viewBoxShift.scale;
                             c.x = b.x - this.paper._viewBoxShift.dx;
                             c.x *= z;
                             c.y = b.y - this.paper._viewBoxShift.dy;
                             c.y *= z;
-                            c.width  = b.width  * z;
+                            c.width = b.width * z;
                             c.height = b.height * z;
                             c.x2 = c.x + c.width;
                             c.y2 = c.y + c.height;
@@ -8182,7 +8345,8 @@
                                 container.appendChild(c);
                             }
                         }
-                        res.renderfix = function () {};
+                        res.renderfix = function () {
+                        };
                         return res;
                     };
                     R.prototype.clear = function () {
@@ -8217,14 +8381,15 @@
                 __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 
-                /***/ }),
+                /***/
+            }),
 
             /***/ "./node_modules/eve-raphael/eve.js":
             /*!*****************************************!*\
   !*** ./node_modules/eve-raphael/eve.js ***!
   \*****************************************/
             /*! no static exports found */
-            /***/ (function(module, exports, __webpack_require__) {
+            /***/ (function (module, exports, __webpack_require__) {
 
                 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;// Copyright (c) 2013 Adobe Systems Incorporated. All rights reserved.
 // 
@@ -8251,7 +8416,8 @@
                         separator = /[\.\/]/,
                         comaseparator = /\s*,\s*/,
                         wildcard = "*",
-                        fun = function () {},
+                        fun = function () {
+                        },
                         numsort = function (a, b) {
                             return a - b;
                         },
@@ -8445,7 +8611,8 @@
     \*/
                     eve.on = function (name, f) {
                         if (typeof f != "function") {
-                            return function () {};
+                            return function () {
+                            };
                         }
                         var names = isArray(name) ? (isArray(name[0]) ? name : [name]) : Str(name).split(comaseparator);
                         for (var i = 0, ii = names.length; i < ii; i++) {
@@ -8650,12 +8817,16 @@
                     eve.toString = function () {
                         return "You are running Eve " + version;
                     };
-                    ( true && module.exports) ? (module.exports = eve) : ( true ? (!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = (function() { return eve; }).apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
+                    (true && module.exports) ? (module.exports = eve) : (true ? (!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = (function () {
+                        return eve;
+                    }).apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
                     __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__))) : (undefined));
                 })(this);
 
 
-                /***/ })
+                /***/
+            })
 
-            /******/ });
+            /******/
+        });
 });

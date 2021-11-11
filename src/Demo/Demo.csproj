@@ -7,7 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\UnlockedData.Mapael\UnlockedData.Mapael.csproj" />
+        <ProjectReference Include="..\UnlockedData.Mapael\UnlockedData.Mapael.csproj"/>
     </ItemGroup>
 
 </Project>
