@@ -4,7 +4,7 @@ A Blazor implementation of the mapping library [Jquery Mapael](https://www.vince
 
 The main dependencies outside of Jquery have been bundled with the package for convenience. Everything is managed in the old Blazor way for now, it will move to isolated JS at some point.
 
-### Contributions Welcome - PRs for missing features (event handling, proper update handling, js modularisation, more slice generators) will happily be accepted
+Contributions are welcome - PRs for missing features (event handling, proper update handling, js modularisation, more slice generators) will happily be accepted if working
 
 ## Setup
 
