@@ -4,6 +4,11 @@ A Blazor implementation of the mapping library [Jquery Mapael](https://www.vince
 
 The main dependencies outside of Jquery have been bundled with the package for convenience. Everything is managed in the old Blazor way for now, it will move to isolated JS at some point.
 
+## Contributions Welcome!
+Just submit a PR
+
+## Setup
+
 For client-side and server-side Blazor - add the below script sections (and optional css) to index.html or _Host.cshtml/_Layout.cshtml 
 
 ```xml
@@ -47,5 +52,3 @@ A PR for a much needed feature in relation to scaling plots on zoom was applied 
 
 None
 
-# Contributions Welcome!
-Just submit a PR
