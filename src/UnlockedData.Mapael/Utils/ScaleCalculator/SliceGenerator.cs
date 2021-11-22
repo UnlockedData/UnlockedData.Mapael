@@ -21,7 +21,10 @@
                 Min = i == 0 ? null : rangeValues[i],
                 Max = i == steps - 1 ? null : rangeValues[i + 1],
                 Size = domainValues[i]
+                
             });
+        
+        result.ForEach(slice => slice.Label = LabelMaker(slice.Min, slice.Max) );
 
         return result;
     }
@@ -42,5 +45,21 @@
             ).ToList();
 
         return null;
+    }
+
+    private static string LabelMaker(double? min, double? max)
+    {
+        if (max is null)
+        {
+            return $"More than {min:N}";
+        }
+
+        if (min is null)
+        {
+            return $"Upto {max:N}";
+        }
+
+        return $"Betwee {min:N} and {max:N}";
+
     }
 }

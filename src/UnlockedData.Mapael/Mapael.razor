@@ -7,11 +7,13 @@
         <div id="" class="map">
             <span>@AlternativeMapText</span>
         </div>
-
-        <div id="" class="legend">
-            <span>@AlternativeLegendText</span>
-        </div>
-
+        
+        @if (DisplayLegend)
+        {
+            <div id="" class="legend">
+                <span>@AlternativeLegendText</span>
+            </div>            
+        }
 
     </div>
 </div>
@@ -30,6 +32,9 @@
 
     [Parameter]
     public EventCallback<string> OnPlotClicked { get; set; }
+
+    [Parameter]
+    public bool DisplayLegend { get; set; } = false;
 
     [Parameter]
     public string AlternativeLegendText { get; set; } = "Alternative Legend Text";
