@@ -10,4 +10,8 @@
         <ProjectReference Include="..\..\src\UnlockedData.Mapael\UnlockedData.Mapael.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Content Remove="Pages\OnCard.razor" />
+    </ItemGroup>
+
 </Project>

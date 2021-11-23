@@ -2,22 +2,25 @@
 @using UnlockedData.Mapael.Models
 @inject IJSRuntime JS
 
-<div class="map-container" id="@_elementId">
-    <div id="" class="jvmap-smart">
-
-        <div id="" class="map">
-            <span>@AlternativeMapText</span>
-        </div>
+    <div class="map-outer-container">
+        <div class="map-container" id="@_elementId">
+            <div id="" class="">
         
-        @if (DisplayLegend)
-        {
-            <div id="" class="legend">
-                <span>@AlternativeLegendText</span>
-            </div>            
-        }
-
+                <div id="" class="map">
+                    <span>@AlternativeMapText</span>
+                </div>
+                
+                @if (DisplayLegend)
+                {
+                    <div id="" class="legend">
+                        <span>@AlternativeLegendText</span>
+                    </div>            
+                }
+        
+            </div>
+        </div>
     </div>
-</div>
+
 
 
 @code{
@@ -39,9 +42,9 @@
 
     [Parameter]
     public string AlternativeLegendText { get; set; } = "Alternative Legend Text";
+    
 
     private string _elementId = "p" + Guid.NewGuid().ToString()[..6];
-
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {

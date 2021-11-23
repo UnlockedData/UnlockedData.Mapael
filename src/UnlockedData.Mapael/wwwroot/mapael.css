@@ -1,5 +1,4 @@
 ﻿.mapael .map {
-
     margin-bottom: 10px;
     position: relative;
 }
@@ -55,4 +54,22 @@
 /* Then Zoom Out button */
 .mapael .zoomOut {
     top: 50px;
+}
+
+.map-container{
+    overflow: hidden;
+}
+
+.map-container:after, .clearfix{
+    display: block;
+    content: '';
+    clear: both;
+}
+
+.map-container svg {
+    touch-action: none;
+}
+
+.map-outer-container {
+    max-width: 1200px;
 }
