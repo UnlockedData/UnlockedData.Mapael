@@ -1,4 +1,4 @@
-﻿using System.Text.Json.Serialization;
+﻿namespace UnlockedData.Mapael.Models;
 
 #nullable enable
 public class MapOptions

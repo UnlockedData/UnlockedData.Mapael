@@ -1,4 +1,7 @@
-﻿public static class ScaleCalculatorFactory
+﻿using UnlockedData.Mapael.Models;
+
+namespace UnlockedData.Mapael.Utils.ScaleCalculator;
+public static class ScaleCalculatorFactory
 {
     public static IScaleCalculator<TOutput>? CreateScaleCalculator<TOutput, T>(List<T> data,
         Tuple<TOutput, TOutput> range) where T : MapObject

@@ -1,4 +1,7 @@
-﻿public static class SliceGenerator
+﻿using UnlockedData.Mapael.Models;
+
+namespace UnlockedData.Mapael.Utils.ScaleCalculator;
+public static class SliceGenerator
 {
     public static List<DataSlice> GenerateSlices<T, TOutput>(List<T> data, Tuple<TOutput, TOutput> range,
         int steps = 10, Scale scale = Scale.Linear) where T : MapObject

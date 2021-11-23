@@ -6,6 +6,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <AssemblyName>UnlockedData.Mapael</AssemblyName>
         <RootNamespace>UnlockedData.Mapael</RootNamespace>
+        <LangVersion>10.0</LangVersion>
     </PropertyGroup>
 
 

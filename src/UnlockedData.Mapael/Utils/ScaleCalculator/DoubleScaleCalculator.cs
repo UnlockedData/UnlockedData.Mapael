@@ -1,3 +1,7 @@
+using UnlockedData.Mapael.Models;
+
+namespace UnlockedData.Mapael.Utils.ScaleCalculator;
+
 public class DoubleScaleCalculator<T> : IScaleCalculator<double> where T : MapObject
 {
     private readonly Tuple<double, double> _domain;

@@ -1,5 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
+﻿namespace UnlockedData.Mapael.Models;
 public class Map
 {
     public string Name { get; set; } = "world_countries_miller";

@@ -1,4 +1,5 @@
-﻿public enum PlotShape
+﻿namespace UnlockedData.Mapael.Models;
+public enum PlotShape
 {
     circle,
     square,

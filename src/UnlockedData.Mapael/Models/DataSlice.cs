@@ -1,5 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
+﻿namespace UnlockedData.Mapael.Models;
 public class DataSlice : PlotObject
 {
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

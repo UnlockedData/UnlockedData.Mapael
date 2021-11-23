@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
-namespace UnlockedData.Mapael.Models;
+﻿namespace UnlockedData.Mapael.Models;
 
 public class ZoomInit
 {
