@@ -6,6 +6,8 @@ The main dependencies outside of Jquery have been bundled with the package for c
 
 Contributions are welcome - PRs for missing features (event handling, proper update handling, js modularisation, more slice generators) will happily be accepted if working
 
+[![ci-build](https://github.com/UnlockedData/UnlockedData.Mapael/actions/workflows/ci-build.yml/badge.svg)](https://github.com/UnlockedData/UnlockedData.Mapael/actions/workflows/ci-build.yml)
+
 ## Setup
 
 For client-side and server-side Blazor - add the below script sections (and optional css) to index.html or _Host.cshtml/_Layout.cshtml 
