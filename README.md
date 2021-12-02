@@ -13,21 +13,22 @@ Contributions are welcome - PRs for missing features (event handling, proper upd
 For client-side and server-side Blazor - add the below script sections (and optional css) to index.html or _Host.cshtml/_Layout.cshtml 
 
 ```xml
-   <link href="_content/UnlockedData.Mapael/mapael.css" rel="stylesheet"/>
+<link href="_content/UnlockedData.Mapael/mapael.css" rel="stylesheet"/>
    
-   .....   
+.....   
    
-   <script src="_content/UnlockedData.Mapael/js/mapael.dependencies.js"></script>
-   <script src="_content/UnlockedData.Mapael/js/mapael.js"></script>
-   <script src="_content/UnlockedData.Mapael/js/unlockeddata.mapael.js"></script>    
+<script src="_content/UnlockedData.Mapael/js/mapael.dependencies.js"></script>
+<script src="_content/UnlockedData.Mapael/js/mapael.js"></script>
+<script src="_content/UnlockedData.Mapael/js/unlockeddata.mapael.js"></script>    
 ```
 
 For maps to render, you must provide the SVG data. Some are bundled with the library as they were used to make the demo. If you want to use your own map, you certainly can by following the guide [here](https://www.vincentbroute.fr/mapael/create-map.php)
 
 ```xml
 
-   <script src="_content/UnlockedData.Mapael/js/maps/world_countries_miller.js"></script>
-   <script src="_content/UnlockedData.Mapael/js/maps/france_departments.js"></script>
+<script src="_content/UnlockedData.Mapael/js/maps/world_countries_miller.js"></script>
+<script src="_content/UnlockedData.Mapael/js/maps/france_departments.js"></script>
+
 ```
 
 To put a simple map on the page, add the following component
