@@ -43,7 +43,7 @@ Some basic examples are bundled in the demo solution (direct copies of examples 
 
 ### What's New
 
-The whole thing!
+Link lines to join points. A new page showing example usage is included in the demo.
 
 ### Known Issues
 
