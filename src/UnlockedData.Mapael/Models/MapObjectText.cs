@@ -3,7 +3,7 @@
 public class MapObjectText
 {
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string Content { get; set; }
+    public string? Content { get; set; }
 
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public TextPosition Position { get; set; } = TextPosition.right;

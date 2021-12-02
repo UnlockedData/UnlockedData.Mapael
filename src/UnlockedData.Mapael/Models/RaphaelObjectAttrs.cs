@@ -29,4 +29,8 @@ public class RaphaelObjectAttrs
     [JsonPropertyName("stroke-linejoin")]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public StrokeLineJoin? StrokeLineJoin { get; set; }
+
+    [JsonPropertyName("stroke-linecap")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public StrokeLineCap? StrokeLineCap { get; set; }
 }

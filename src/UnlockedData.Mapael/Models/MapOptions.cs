@@ -13,6 +13,10 @@ public class MapOptions
 
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Legend? Legend { get; set; }
+    
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public Dictionary<string, LinkObject>? Links { get; set; }
+
 }
 
 #nullable disable

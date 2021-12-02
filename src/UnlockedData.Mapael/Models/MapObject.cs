@@ -9,7 +9,7 @@ public class MapObject
     public RaphaelObjectAttrs AttrsHover { get; set; } = new();
 
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public MapObjectTooltip Tooltip { get; set; }
+    public MapObjectTooltip? Tooltip { get; set; }
 
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public MapObjectText Text { get; set; } = new();

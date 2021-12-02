@@ -17,5 +17,5 @@ public class DataSlice : PlotObject
     public bool Clicked { get; set; } = false;
 
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public RaphaelObjectAttrs LegendSpecificAttrs { get; set; }
+    public RaphaelObjectAttrs? LegendSpecificAttrs { get; set; }
 }

@@ -40,14 +40,14 @@ public static class SliceGenerator
         return rangeValues;
     }
 
-    private static List<int> SizeValues<TOutput>(List<double> rangeValues, IScaleCalculator<TOutput> calculator)
+    private static List<int>? SizeValues<TOutput>(List<double> rangeValues, IScaleCalculator<TOutput> calculator)
     {
         if (typeof(TOutput) == typeof(double))
             return rangeValues.Select(x =>
                 (int)Math.Round(Convert.ToDouble(calculator.ScaleLinear(x)), 0)
             ).ToList();
 
-        return null;
+        return default;
     }
 
     private static string LabelMaker(double? min, double? max)
