@@ -4,22 +4,28 @@
     <h1>Last clicked: @_objectType - @_objectName</h1>
 </div>
 
-<Mapael MapOptions="_mapOptions" OnAreaClicked="AreaClickHander" OnPlotClicked="PlotClickHander"></Mapael>
+<Mapael MapOptions="_mapOptions" OnAreaClicked="AreaClickHandler" OnPlotClicked="PlotClickHandler" OnLinkClicked="LinkClickHandler"></Mapael>
 
 @code {
 
-    string _objectType;
-    string _objectName;
+    string? _objectType;
+    string? _objectName;
 
-    void AreaClickHander(string key)
+    void AreaClickHandler(string key)
     {
         _objectType = "Area";
         _objectName = key;
     }
 
-    void PlotClickHander(string key)
+    void PlotClickHandler(string key)
     {
         _objectType = "Plot";
+        _objectName = key;
+    }
+
+    void LinkClickHandler(string key)
+    {
+        _objectType = "Link";
         _objectName = key;
     }
 
@@ -27,7 +33,6 @@
     {
         Map = new Map
         {
-            Name = "france_departments",
             DefaultPlot = new PlotObject
             {
                 Attrs = new RaphaelObjectAttrs
@@ -76,6 +81,211 @@
                     {
                         Fill = "#000"
                     }
+                }
+            },
+            DefaultLink = new LinkObject()
+        },
+        Plots = new Dictionary<string, MapPlot>
+        {
+            {
+                "paris", new MapPlot
+                {
+                    Latitude = 48.86,
+                    Longitude = 2.3444,
+                    Tooltip = new MapObjectTooltip {Content = "Paris<br />Population= 500000000"}
+                }
+            },
+            {
+                "newyork", new MapPlot
+                {
+                    Latitude = 40.667,
+                    Longitude = -73.833,
+                    Tooltip = new MapObjectTooltip {Content = "New york<br />Population= 200001"}
+                }
+            },
+            {
+                "sanfrancisco", new MapPlot
+                {
+                    Latitude = 37.792032,
+                    Longitude = -122.394613,
+                    Tooltip = new MapObjectTooltip {Content = "San Francisco"}
+                }
+            },
+            {
+                "brasilia", new MapPlot
+                {
+                    Latitude = -15.781682,
+                    Longitude = -47.924195,
+                    Tooltip = new MapObjectTooltip {Content = "Brasilia<br />Population= 200000001"}
+                }
+            },
+            {
+                "roma", new MapPlot
+                {
+                    Latitude = 41.827637,
+                    Longitude = 12.462732,
+                    Tooltip = new MapObjectTooltip {Content = "Roma"}
+                }
+            },
+            {
+                "miami", new MapPlot
+                {
+                    Latitude = 25.789125,
+                    Longitude = -80.205674,
+                    Tooltip = new MapObjectTooltip {Content = "Miami"}
+                }
+            },
+            {
+                "tokyo", new MapPlot
+                {
+                    Latitude = 35.687418,
+                    Longitude = 139.692306,
+                    Size = 0,
+                    Text = new MapObjectText {Content = "Tokyo"}
+                }
+            },
+            {
+                "sydney", new MapPlot
+                {
+                    Latitude = -33.917,
+                    Longitude = 151.167,
+                    Size = 0,
+                    Text = new MapObjectText {Content = "Sydney"}
+                }
+            },
+            {
+                "plot1", new MapPlot
+                {
+                    Latitude = 22.906561,
+                    Longitude = 86.840170,
+                    Size = 0,
+                    Text = new MapObjectText {Content = "Plot1", Position = TextPosition.left, Margin = 5}
+                }
+            },
+            {
+                "plot2", new MapPlot
+                {
+                    Latitude = -0.390553,
+                    Longitude = 115.586762,
+                    Size = 0,
+                    Text = new MapObjectText {Content = "Plot2"}
+                }
+            },
+            {
+                "plot3", new MapPlot
+                {
+                    Latitude = 44.065626,
+                    Longitude = 94.576079,
+                    Size = 0,
+                    Text = new MapObjectText {Content = "Plot3"}
+                }
+            }
+        },
+        Links = new Dictionary<string, LinkObject>()
+        {
+            {
+                "link1", new LinkObject
+                {
+                    Factor = -0.3,
+                    Between = new List<dynamic>
+                    {
+                        new GeoPoint {Latitude = 24.708785, Longitude = -5.402427},
+                        new CartesianPoint() {X = 560, Y = 280}
+                    },
+                    Attrs = new RaphaelObjectAttrs() {StrokeWidth = 2},
+                    Tooltip = new MapObjectTooltip {Content = "Link"}
+                }
+            },
+            {
+                "parisnewyork", new LinkObject()
+                {
+                    Factor = -0.3,
+                    Between = new List<dynamic> {"paris", "newyork"},
+                    Attrs = new RaphaelObjectAttrs() {StrokeWidth = 2}
+                }
+            },
+            {
+                "parissanfrancisco", new LinkObject
+                {
+                    Factor = -0.5,
+                    Between = new List<dynamic> {"paris", "sanfrancisco"},
+                    Attrs = new RaphaelObjectAttrs() {StrokeWidth = 4}
+                }
+            },
+            {
+                "parisbrasilia", new LinkObject
+                {
+                    Factor = -0.8,
+                    Between = new List<dynamic> {"paris", "brasilia"},
+                    Attrs = new RaphaelObjectAttrs() {StrokeWidth = 1}
+                }
+            },
+            {
+                "romamiami", new LinkObject
+                {
+                    Factor = 0.2,
+                    Between = new List<dynamic> {"roma", "miami"},
+                    Attrs = new RaphaelObjectAttrs {StrokeWidth = 4},
+                    Tooltip = new MapObjectTooltip {Content = "Roma - Miami"}
+                }
+            },
+            {
+                "sydneyplot1", new LinkObject
+                {
+                    Factor = -0.2,
+                    Between = new List<dynamic> {"sydney", "plot1"},
+                    Attrs = new RaphaelObjectAttrs
+                    {
+                        StrokeWidth = 3,
+                        Stroke = "#a4e100",
+                        StrokeLineCap = StrokeLineCap.round
+                    },
+                    Tooltip = new MapObjectTooltip {Content = "Sydney - Plot1"}
+                }
+            },
+            {
+                "sydneyplot2", new LinkObject
+                {
+                    Factor = -0.1,
+                    Between = new List<dynamic> {"sydney", "plot2"},
+                    Attrs = new RaphaelObjectAttrs
+                    {
+                        StrokeWidth = 8,
+                        Stroke = "#a4e100",
+                        StrokeLineCap = StrokeLineCap.round,
+                        Opacity = 0.6
+                    },
+                    Tooltip = new MapObjectTooltip {Content = "Sydney - Plot2"}
+                }
+            },
+            {
+                "sydneyplot3", new LinkObject
+                {
+                    Factor = 0.2,
+                    Between = new List<dynamic> {"sydney", "plot3"},
+                    Attrs = new RaphaelObjectAttrs
+                    {
+                        StrokeWidth = 4,
+                        Stroke = "#a4e100",
+                        StrokeLineCap = StrokeLineCap.round,
+                        Opacity = 0.6
+                    },
+                    Tooltip = new MapObjectTooltip {Content = "Sydney - Plot3"}
+                }
+            },
+            {
+                "sydneytokyo", new LinkObject
+                {
+                    Factor = 0.2,
+                    Between = new List<dynamic> {"sydney", "tokyo"},
+                    Attrs = new RaphaelObjectAttrs
+                    {
+                        StrokeWidth = 6,
+                        Stroke = "#a4e100",
+                        StrokeLineCap = StrokeLineCap.round,
+                        Opacity = 0.6
+                    },
+                    Tooltip = new MapObjectTooltip {Content = "Sydney - Tokyo"}
                 }
             }
         }

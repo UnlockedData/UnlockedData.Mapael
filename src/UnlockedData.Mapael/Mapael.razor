@@ -36,6 +36,9 @@
 
     [Parameter]
     public EventCallback<string> OnPlotClicked { get; set; }
+    
+    [Parameter]
+    public EventCallback<string> OnLinkClicked { get; set; }
 
     [Parameter]
     public bool DisplayLegend { get; set; } = false;
@@ -59,15 +62,21 @@
     }
 
     [JSInvokable]
-    public void PlotClickHandler(string key)
+    public async Task PlotClickHandler(string key)
     {
-        OnPlotClicked.InvokeAsync(key);
+        await OnPlotClicked.InvokeAsync(key);
     }
 
     [JSInvokable]
-    public void AreaClickHandler(string key)
+    public async Task AreaClickHandler(string key)
     {
-        OnAreaClicked.InvokeAsync(key);
+        await OnAreaClicked.InvokeAsync(key);
+    }
+    
+    [JSInvokable]
+    public async Task LinkClickHandler(string key)
+    {
+        await OnLinkClicked.InvokeAsync(key);
     }
 
 }
