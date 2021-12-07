@@ -30,3 +30,17 @@ function createMap(element, dotnetref, options) {
     $("#" + element).mapael(options);
 }
 
+function updateMap(element, dotnetref, options) {
+    let data = $("#" + element).data().mapael;
+    
+    $("#"+element).trigger('update', [{
+        deletePlotKeys: Object.keys(data.plots ),
+        deleteLinkKeys: Object.keys(data.links ),
+        animDuration: 500
+    }]);
+    $("#"+element).trigger('update', [{
+        newPlots : options.plots,
+        newLinks : options.links,
+        animDuration: 500
+    }]);
+}

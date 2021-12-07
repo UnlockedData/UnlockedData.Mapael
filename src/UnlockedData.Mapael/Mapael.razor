@@ -1,5 +1,6 @@
 ﻿@using Microsoft.JSInterop
 @using UnlockedData.Mapael.Models
+@using System.Runtime.InteropServices
 @inject IJSRuntime JS
 
     <div class="map-outer-container">
@@ -58,7 +59,11 @@
             {
                 await JS.InvokeVoidAsync("createMap", _elementId, dotNetObjectReference, MapOptions);
             }
+            
+            return;
         }
+        await JS.InvokeVoidAsync("updateMap", _elementId, dotNetObjectReference, MapOptions);
+
     }
 
     [JSInvokable]
