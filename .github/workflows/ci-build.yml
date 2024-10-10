@@ -24,7 +24,7 @@ jobs:
     - name: Setup .NET 
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: '6.0'
+        dotnet-version: '8.0'
     - name: Install dependencies
       run: dotnet restore UnlockedData.Mapael.sln
     - name: ngbv set version
@@ -41,7 +41,7 @@ jobs:
     - name: Pack
       run: dotnet pack UnlockedData.Mapael.sln --no-build -c Release --output "${{ github.workspace }}/package"
     - name: Upload Artifacts
-      uses: actions/upload-artifact@v1
+      uses: actions/upload-artifact@v4
       with:
         name: nuget
         path: ${{ github.workspace }}/package
